@@ -27,9 +27,9 @@
       <cart-product-list :products="products" order></cart-product-list>
 
       <h2 class="mb-3 text-2xl font-bold">訂單明細</h2>
-      <ul class="mb-8 bg-gray-100 rounded-lg lg:p-6">
-        <li class="flex gap-2">
-          <h3 class="mb-2 text-lg">訂單編號：</h3>
+      <ul class="p-3 mb-8 bg-gray-100 rounded-lg lg:p-6">
+        <li class="flex items-center gap-2 mb-2">
+          <h3 class="text-lg">訂單編號：</h3>
           <p>{{ order.id }}</p>
         </li>
         <li class="flex gap-2 mb-2">
@@ -38,23 +38,23 @@
             {{ order.is_paid ? '已付款' : '未付款' }}
           </p>
         </li>
-        <li class="flex gap-2 mb-2">
+        <li class="flex items-center gap-2 mb-2">
           <h3 class="text-lg ml-9">姓名：</h3>
           <p>{{ order.user.name.slice(0, 1).toUpperCase() }}xx</p>
         </li>
-        <li class="flex gap-2 mb-2">
+        <li class="flex items-center gap-2 mb-2">
           <h3 class="text-lg ml-9">電話：</h3>
           <p>{{ order.user.tel.slice(0, 4) }}xxxx</p>
         </li>
-        <li class="flex gap-2 mb-2">
+        <li class="flex items-center gap-2 mb-2">
           <h3 class="text-lg">電子信箱：</h3>
           <p>{{ order.user.email.slice(0, 5) }}xxxx</p>
         </li>
-        <li class="flex gap-2 mb-2">
+        <li class="flex items-center gap-2 mb-2">
           <h3 class="text-lg ml-9">地址：</h3>
           <p>{{ order.user.address.slice(0, 7) }}xxxxxxxx</p>
         </li>
-        <li class="flex gap-2 mb-2">
+        <li class="flex items-center gap-2 mb-2">
           <h3 class="text-lg ml-9">留言：</h3>
           <p>{{ order.message }}</p>
         </li>

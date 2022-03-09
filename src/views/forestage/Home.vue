@@ -10,7 +10,7 @@
   </div>
   <div class="container px-4 mx-auto mb-12">
     <ul class="flex flex-col items-center justify-center gap-9 lg:flex-row lg:items-start">
-      <li class="w-[400px]">
+      <li class="lg:w-[400px] w-[300px]">
         <img
           src="https://cdn.pixabay.com/photo/2015/09/20/07/21/dirt-947985_960_720.jpg"
           alt="土地"
@@ -22,7 +22,7 @@
           有機農業是一種能維護土壤、生態系統和人類健康的生產體系，遵從當地的生態節律、生物多樣性和自然循環，而不依賴會帶來不利影響的投入物質。
         </p>
       </li>
-      <li class="w-[400px]">
+      <li class="lg:w-[400px] w-[300px]">
         <img
           src="https://cdn.pixabay.com/photo/2020/03/05/09/20/gunny-sack-4903874_960_720.jpg"
           alt="麻袋"
@@ -32,7 +32,7 @@
         <h3 class="mb-2 text-3xl">環保包裝</h3>
         <p>包裝產品採用可回收材質，降低包材對環境的負擔。</p>
       </li>
-      <li class="w-[400px]">
+      <li class="lg:w-[400px] w-[300px]">
         <img
           src="https://cdn.pixabay.com/photo/2020/03/15/12/50/truck-4933514_960_720.jpg"
           alt="貨車"

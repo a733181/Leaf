@@ -1,8 +1,8 @@
 <template>
-  <table class="mb-5 text-center" @click="toProductDetail(product.id)">
+  <table class="w-[300px] mb-5 text-center" @click="toProductDetail(product.id)">
     <tr>
       <th></th>
-      <th class="lg:px-3 lg:py-1">數量</th>
+      <th class="px-3 py-1">數量</th>
       <th class="px-3 py-1">價格</th>
     </tr>
     <tr>

@@ -13,7 +13,7 @@
         :class="productModel ? ['top-6'] : ['top-1/2', ' -translate-y-1/2']"
       >
         <header class="flex items-center justify-between p-3" :class="headerClass">
-          <h2 class="text-2xl text-white">{{ title }}</h2>
+          <h2 class="text-xl text-white lg:text-2xl">{{ title }}</h2>
           <img
             src="@/assets/times-solid.svg"
             alt="close"
