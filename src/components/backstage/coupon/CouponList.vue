@@ -1,5 +1,5 @@
 <template>
-  <table class="w-full lg:text-center mb-3">
+  <table class="w-full mb-3 lg:text-center">
     <thead>
       <tr class="border-b-2 border-black">
         <th class="p-2" @click="sort('title')">
@@ -147,8 +147,6 @@ export default {
     allPage(data) {
       const dataLength = data.length;
       const allPage = Math.ceil(dataLength / this.countPageData.showItem);
-      console.log(data.length);
-      console.log(allPage);
       this.$store.dispatch('pagination/setAllPage', allPage);
     },
     changeDate(date) {

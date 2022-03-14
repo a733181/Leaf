@@ -21,7 +21,7 @@
             <img src="@/assets/c.svg" alt="coupon" class="icon" />
           </router-link>
         </li>
-        <li @click="logout">
+        <li @click="logout" class="cursor-pointer">
           <img src="@/assets/sign-out-alt-solid.svg" alt="logout" class="icon" />
         </li>
       </ul>

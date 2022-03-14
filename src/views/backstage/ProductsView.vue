@@ -10,7 +10,11 @@
   </base-dialog>
   <!-- 新增 -->
   <base-dialog :show="switchAddProduct" @close="closeAddProduct" product-model title="新增商品">
-    <product-form add-product-model @product-from-data="addProduct"></product-form>
+    <product-form
+      add-product-model
+      @product-from-data="addProduct"
+      class="max-h-[639px] overflow-y-auto"
+    ></product-form>
   </base-dialog>
 </template>
 

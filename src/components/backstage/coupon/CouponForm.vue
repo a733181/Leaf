@@ -87,9 +87,20 @@ export default {
         this.errorType = 'code';
         return;
       }
-      if (this.data.percent === null || this.data.percent === '') {
+      /* eslint-disable operator-linebreak
+       */
+      if (
+        this.data.percent === null ||
+        this.data.percent === '' ||
+        this.data.percent <= 0 ||
+        this.data.percent >= 100
+      ) {
         this.errorType = 'percent';
+        return;
       }
+      /* eslint-enable operator-linebreak
+       */
+      console.log(this.data.percent === '' || this.data.percent === null);
       const date = Date.parse(this.date);
       this.data.due_date = date;
       this.data.is_enabled = this.data.is_enabled ? 1 : 0;

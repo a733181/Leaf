@@ -132,7 +132,7 @@
     </section>
     <!-- edit -->
     <base-dialog :show="switchEditProduct" @close="closeEditProduct" product-model title="變更商品">
-      <product-form @product-from-data="editProduct"></product-form>
+      <product-form @product-from-data="editProduct" title="變更商品"></product-form>
     </base-dialog>
     <!-- deleteCheck -->
     <base-dialog :show="switchDeleteProduct" title="刪除商品" @close="closeDeleteProduct">
@@ -168,12 +168,11 @@ export default {
       const showItem = this.$store.getters['pagination/backstageShowItem'];
       const start = (currentPage - 1) * showItem;
       const end = currentPage * showItem;
-      return { start, end };
+      return { start, end, currentPage };
     },
     productsData() {
       const data = this.$store.getters['backstageProducts/productsData'] ?? [];
       const dataArr = Object.entries(data);
-
       const sortData = dataArr.sort((itemA, itemB) => {
         if (itemA[1][this.sortType] > itemB[1][this.sortType]) return this.toSort ? -1 : 1;
         if (itemA[1][this.sortType] < itemB[1][this.sortType]) return this.toSort ? 1 : -1;
@@ -181,19 +180,18 @@ export default {
       });
 
       const newData = sortData.slice(this.countPageData.start, this.countPageData.end);
-
       return newData;
     },
     countDataItem() {
       return this.$store.getters['backstageProducts/countDataItem'];
     },
   },
-
   methods: {
     showEditProduct(product) {
       this.$store.dispatch('backstageProducts/getEditProductData', product);
       this.switchEditProduct = true;
     },
+
     closeEditProduct() {
       this.switchEditProduct = false;
     },

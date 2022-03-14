@@ -1,7 +1,7 @@
 <template>
   <teleport to="body">
     <div
-      class="fixed top-0 left-0 z-10 flex items-center justify-center w-screen h-screen bg-black/30"
+      class="fixed top-0 left-0 z-20 flex items-center justify-center w-screen h-screen bg-black/30"
       v-if="show"
     >
       <div class="loading">

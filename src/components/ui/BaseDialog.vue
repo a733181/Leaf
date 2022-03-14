@@ -1,17 +1,12 @@
 <template>
   <teleport to="body">
     <div
-      class="fixed top-0 left-0 z-10 w-full h-full overflow-x-hidden bg-black/30"
+      class="fixed top-0 left-0 z-20 w-full h-full bg-black/30"
       v-if="show"
       @click="tryClose"
     ></div>
     <transition name="dialog">
-      <div
-        class="dialog"
-        open
-        v-if="show"
-        :class="productModel ? ['top-6'] : ['top-1/2', ' -translate-y-1/2']"
-      >
+      <div class="dialog" open v-if="show" :class="positionClass">
         <header class="flex items-center justify-between p-3" :class="headerClass">
           <h2 class="text-xl text-white lg:text-2xl">{{ title }}</h2>
           <img
@@ -53,6 +48,12 @@ export default {
       }
       return 'bg-[#40916C]';
     },
+    positionClass() {
+      if (this.productModel) {
+        return ['top-6', 'absolute'];
+      }
+      return ['top-1/2', ' -translate-y-1/2', 'fixed'];
+    },
   },
   methods: {
     tryClose() {
@@ -64,7 +65,7 @@ export default {
 
 <style scoped>
 .dialog {
-  @apply fixed z-20 p-0 overflow-hidden -translate-x-1/2 bg-white rounded-lg shadow-lg left-1/2;
+  @apply z-30 p-0 -translate-x-1/2 bg-white rounded-lg shadow-lg left-1/2;
 }
 
 .dialog-enter-from,

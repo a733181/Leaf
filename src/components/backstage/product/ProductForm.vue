@@ -1,5 +1,5 @@
 <template>
-  <form action="" @submit.prevent="submitFrom">
+  <form action="" @submit.prevent="submitFrom" class="max-h-[639px] overflow-y-auto">
     <div class="p-3 lg:flex lg:gap-7">
       <div class="lg:w-[300px]">
         <!-- 主圖 -->
@@ -124,6 +124,7 @@
               type="number"
               id="originPrice"
               class="input"
+              min="0"
               v-model="data.origin_price"
               :class="errorClass('originPrice')"
               @blur="errorType = ''"
@@ -134,6 +135,7 @@
             <input
               type="number"
               id="price"
+              min="0"
               v-model="data.price"
               class="input"
               :class="errorClass('price')"
@@ -204,6 +206,10 @@ export default {
       required: false,
       default: false,
     },
+    title: {
+      type: String,
+      required: true,
+    },
   },
   emits: ['product-from-data'],
   data() {
@@ -233,7 +239,7 @@ export default {
         this.errorType = 'imageUrl';
         return;
       }
-      if (this.data.title.value === '') {
+      if (this.data.title === '') {
         this.errorType = 'title';
         return;
       }
@@ -259,7 +265,6 @@ export default {
       }
       for (let item = 0; item < 5; item += 1) {
         const imageNumber = `imagesUrl${item}`;
-        console.log(this.data.imagesUrl[imageNumber]);
         if (this.data.imagesUrl[imageNumber] !== undefined) {
           if (!url.test(this.data.imagesUrl[imageNumber])) {
             this.errorType = `imagesUrl${item}`;

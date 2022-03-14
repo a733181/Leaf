@@ -2,7 +2,7 @@
   <section class="container flex items-center mx-auto justify-content" v-if="allPage">
     <ul class="flex items-center mx-auto">
       <li
-        class="border-2 border-[#E5E5E5] rounded mr-3 py-1"
+        class="border-2 border-[#E5E5E5] mr-3 py-1 cursor-pointer"
         v-if="currentPage !== 1"
         @click="previousPage()"
       >
@@ -15,14 +15,14 @@
       <li
         v-for="number in allPage"
         :key="number"
-        class="text-[#646464] border-2 border-[#E5E5E5] rounded py-2 px-3 text-sm mr-2"
+        class="text-[#646464] border-2 border-[#E5E5E5] py-2 px-3 text-sm mr-2 cursor-pointer"
         :class="{ 'border-[#65895F]': activePage(number) }"
         @click="changePage(number)"
       >
         {{ number }}
       </li>
       <li
-        class="border-2 border-[#E5E5E5] rounded mr-3 py-1"
+        class="border-2 border-[#E5E5E5] mr-3 py-1 cursor-pointer"
         v-if="currentPage !== allPage"
         @click="nextPage()"
       >

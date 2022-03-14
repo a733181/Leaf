@@ -94,7 +94,6 @@ export default {
         this.isLoading = true;
         await this.$store.dispatch('forestageOrder/getOrder', this.orderId.value);
         this.order = this.$store.getters['forestageOrder/order'];
-        console.log(this.order);
         if (this.order === null) {
           this.isLoading = false;
         } else {
