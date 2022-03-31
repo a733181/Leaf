@@ -2,7 +2,6 @@
   <form action="" @submit.prevent="submitFrom" class="max-h-[639px] overflow-y-auto">
     <div class="p-3 lg:flex lg:gap-7">
       <div class="lg:w-[300px]">
-        <!-- 主圖 -->
         <div class="mb-3">
           <label for="imageUrl" class="text-xl"><span class="text-red-500">*</span>主圖</label>
           <input
@@ -14,7 +13,6 @@
             @blur="errorType = ''"
             placeholder="輸入圖片網址"
           />
-          <!-- 主圖預覽 -->
           <div class="w-full h-full mb-2 border-2 border-gray-600">
             <p class="p-1">主圖預覽</p>
             <img
@@ -27,7 +25,6 @@
         </div>
       </div>
       <div>
-        <!-- 詳情圖-0 -->
         <div class="mb-3">
           <label for="imagesUrl0" class="text-xl">詳情圖-1</label>
           <input
@@ -40,7 +37,6 @@
             @blur="errorType = ''"
           />
         </div>
-        <!-- 詳情圖-1 -->
         <div class="mb-3">
           <label for="imagesUrl1" class="text-xl">詳情圖-2</label>
           <input
@@ -53,7 +49,6 @@
             @blur="errorType = ''"
           />
         </div>
-        <!-- 詳情圖-2 -->
         <div class="mb-3">
           <label for="imagesUrl2" class="text-xl">詳情圖-3</label>
           <input
@@ -66,7 +61,6 @@
             @blur="errorType = ''"
           />
         </div>
-        <!-- 詳情圖-3-->
         <div class="mb-3">
           <label for="imagesUrl3" class="text-xl">詳情圖-4</label>
           <input
@@ -79,7 +73,6 @@
             @blur="errorType = ''"
           />
         </div>
-        <!-- 詳情圖-4 -->
         <div class="mb-3">
           <label for="imagesUrl4" class="text-xl">詳情圖-5</label>
           <input
@@ -94,7 +87,6 @@
         </div>
       </div>
       <div class="2xl:w-[600px]">
-        <!-- 名稱 -->
         <div class="mb-3">
           <label for="title" class="text-xl"><span class="text-red-500">*</span>名稱</label>
           <input
@@ -106,7 +98,6 @@
             @blur="errorType = ''"
           />
         </div>
-        <!-- 描述/副標 -->
         <div class="mb-3">
           <label for="description" class="text-xl">描述 / 副標題</label>
           <input
@@ -116,7 +107,6 @@
             v-model="data.description"
           />
         </div>
-        <!-- 原價/售價 -->
         <div class="flex gap-2">
           <div class="w-full mb-3">
             <label for="originPrice" class="text-xl"><span class="text-red-500">*</span>原價</label>
@@ -143,7 +133,6 @@
             />
           </div>
         </div>
-        <!-- 分類/單位 -->
         <div class="flex gap-2">
           <div class="w-full">
             <label for="category" class="text-xl"><span class="text-red-500">*</span>分類</label>
@@ -168,7 +157,6 @@
             />
           </div>
         </div>
-        <!-- 內容說明/上架 -->
         <div class="mb-1">
           <label for="content" class="text-xl"><span class="text-red-500">*</span>內容說明</label>
           <textarea
@@ -192,8 +180,8 @@
       </div>
     </div>
     <div class="flex justify-end">
-      <base-btn red-outline class="mr-2" @click="clearForm" v-if="addProductModel">清除</base-btn>
-      <base-btn submit>送出</base-btn>
+      <BaseBtn red-outline class="mr-2" @click="clearForm" v-if="addProductModel">清除</BaseBtn>
+      <BaseBtn type="submit">送出</BaseBtn>
     </div>
   </form>
 </template>
@@ -206,12 +194,8 @@ export default {
       required: false,
       default: false,
     },
-    title: {
-      type: String,
-      required: true,
-    },
   },
-  emits: ['product-from-data'],
+  emits: ['close'],
   data() {
     return {
       data: {
@@ -273,7 +257,12 @@ export default {
         }
       }
       this.data.is_enabled = this.data.is_enabled ? 1 : 0;
-      this.$emit('product-from-data', this.data);
+      if (this.addProductModel) {
+        this.addProduct();
+      } else {
+        this.editProduct();
+      }
+      this.close();
       this.clearForm();
     },
     errorClass(type) {
@@ -300,9 +289,18 @@ export default {
         this.errorType = '';
       }
     },
+    async addProduct() {
+      await this.$store.dispatch('backstageProducts/addProduct', this.data);
+    },
+    async editProduct() {
+      await this.$store.dispatch('backstageProducts/editProduct', this.data);
+    },
     getEditProductData() {
       const product = this.$store.getters['backstageProducts/editProductData'];
       this.data = product;
+    },
+    close() {
+      this.$emit('close');
     },
   },
   mounted() {

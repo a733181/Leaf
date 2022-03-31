@@ -1,12 +1,14 @@
 import { createStore } from 'vuex';
 import AxiosModules from './modules/axios/index';
 import PaginationModules from './modules/pagination/index';
-// backstage
+import LoadingModules from './modules/loading';
+import DialogModules from './modules/dialog/index';
+
 import BackstageAuthModules from './modules/backstage/auth/index';
 import BackstageProductsModules from './modules/backstage/products/index';
 import BackstageOrderModules from './modules/backstage/order/index';
 import BackstageCouponModules from './modules/backstage/coupon/index';
-// forestage
+
 import ForestageProductsModules from './modules/forestage/product/index';
 import ForestageCartModules from './modules/forestage/cart/index';
 import ForestageOrderModules from './modules/forestage/order/index';
@@ -19,6 +21,8 @@ export default createStore({
   modules: {
     axios: AxiosModules,
     pagination: PaginationModules,
+    dialog: DialogModules,
+    loading: LoadingModules,
 
     backstageAuth: BackstageAuthModules,
     backstageProducts: BackstageProductsModules,

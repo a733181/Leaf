@@ -1,20 +1,21 @@
 <template>
   <p class="mb-2 text-2xl">確定要刪除訂單？ 刪除後無法回復</p>
   <div class="flex">
-    <base-btn class="w-full mr-2" outline @click="closeDeleteOrder">否</base-btn>
-    <base-btn class="w-full" red-outline @click="deleteOrder">是</base-btn>
+    <BaseBtn class="w-full mr-2" outline @click="close">否</BaseBtn>
+    <BaseBtn class="w-full" red-outline @click="deleteOrder">是</BaseBtn>
   </div>
 </template>
 
 <script>
 export default {
-  emits: ['close-delete-order', 'delete-order'],
+  emits: ['close'],
   methods: {
-    closeDeleteOrder() {
-      this.$emit('close-delete-order');
+    close() {
+      this.$emit('close');
     },
-    deleteOrder() {
-      this.$emit('delete-order');
+    async deleteOrder() {
+      await this.$store.dispatch('backstageOrder/deleteOrder');
+      this.close();
     },
   },
 };

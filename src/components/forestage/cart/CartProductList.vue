@@ -23,8 +23,6 @@
         <td>
           <input
             type="number"
-            name=""
-            id=""
             v-model="product.qty"
             class="w-full px-3 border-2 rounded-lg"
             @change="changeProductQuantity(product)"
@@ -38,7 +36,7 @@
         </td>
         <td v-if="!order">
           <img
-            src="@/assets/trash-can-solid.svg"
+            src="@/assets/svg/trash-can-solid.svg"
             alt="刪除"
             class="w-[20px] h-[20px] mx-auto hover:scale-150"
             @click="deleteProduct(product.id)"
@@ -48,15 +46,17 @@
       <tr>
         <td></td>
         <td></td>
-        <td></td>
-        <td>
-          <p class="pt-2">{{ Math.round(sumsPriceTotal) }}</p>
+        <td class="pt-2 lg:text-right">
+          <p>總計：</p>
         </td>
-        <td v-if="!order">
+        <td class="pt-2">
+          <p>{{ Math.round(sumsPriceTotal) }}</p>
+        </td>
+        <td v-if="!order" class="pt-2">
           <img
-            src="@/assets/trash-can-solid.svg"
+            src="@/assets/svg/trash-can-solid.svg"
             alt="刪除"
-            class="w-[20px] h-[20px] mx-auto hover:scale-150"
+            class="w-[20px] h-[20px] mx-auto hover:scale-150 block"
             @click="deleteProduct"
           />
         </td>
@@ -77,12 +77,6 @@ export default {
       required: false,
     },
   },
-  emits: ['change-product-quantity', 'delete-product'],
-  data() {
-    return {
-      productList: [],
-    };
-  },
   computed: {
     sumsPriceTotal() {
       if (this.products) {
@@ -94,9 +88,8 @@ export default {
       return 0;
     },
   },
-  watch: {},
   methods: {
-    changeProductQuantity(product) {
+    async changeProductQuantity(product) {
       if (product.qty < 1) {
         this.deleteProduct(product.id);
       } else {
@@ -107,11 +100,12 @@ export default {
             qty: product.qty,
           },
         };
-        this.$emit('change-product-quantity', data);
+        await this.$store.dispatch('forestageCart/changeProductQuantity', data);
       }
     },
-    deleteProduct(id) {
-      this.$emit('delete-product', id);
+    async deleteProduct(id) {
+      await this.$store.dispatch('forestageCart/deleteProduct', id);
+      await this.$store.dispatch('forestageCart/getCart');
     },
     useCoupon(coupon) {
       return coupon?.code ? coupon.code : '';

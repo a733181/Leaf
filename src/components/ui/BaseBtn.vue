@@ -2,7 +2,7 @@
   <button
     class="btn"
     :class="{ 'btn-outline': outline, 'btn-red-outline': redOutline }"
-    :type="submit ? null : 'button'"
+    :type="type ? type : 'button'"
   >
     <slot></slot>
   </button>
@@ -19,8 +19,8 @@ export default {
       type: Boolean,
       required: false,
     },
-    submit: {
-      type: Boolean,
+    type: {
+      type: String,
       required: false,
     },
   },

@@ -1,14 +1,14 @@
 <template>
-  <the-header class="mb-10" v-if="!$route.meta.hiddenHeader"></the-header>
-  <div class="container px-4 mx-auto min-h-[calc(100vh-192px)]">
-    <router-view></router-view>
+  <TheHeader v-if="!$route.meta.hiddenHeader" />
+  <div class="container px-4 mx-auto min-h-[calc(100vh-192px)] my-10">
+    <RouterView />
   </div>
-  <the-footer class="mt-10" adminLogin></the-footer>
+  <TheFooter adminLogin />
 </template>
 
 <script>
-import TheHeader from '../../components/backstage/header/TheHeader.vue';
-import TheFooter from '../../components/footer/TheFooter.vue';
+import TheHeader from '@/components/backstage/header/TheHeader.vue';
+import TheFooter from '@/components/footer/TheFooter.vue';
 
 export default {
   components: {

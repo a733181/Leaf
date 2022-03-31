@@ -1,5 +1,8 @@
 export default {
-  addCart(state, payload) {
+  getAddCartProduct(state, payload) {
+    state.addCartProduct = payload;
+  },
+  getAddCartMessage(state, payload) {
     state.addCartMessage = payload;
   },
   getCart(state, payload) {

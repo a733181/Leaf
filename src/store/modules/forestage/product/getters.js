@@ -2,7 +2,10 @@ export default {
   productsData(state) {
     return state.products;
   },
-  productData(state) {
-    return state.product;
+  productCategory(state) {
+    return state.productCategoryList;
+  },
+  filterProductCategory(state) {
+    return state.filterProductCategory;
   },
 };

@@ -6,18 +6,24 @@ export default {
   getters: {},
   actions: {
     async useCoupon(context, payload) {
-      const data = {
-        url: 'api/tita/coupon',
-        data: {
+      try {
+        const data = {
+          url: 'api/tita/coupon',
           data: {
-            code: payload,
+            data: {
+              code: payload,
+            },
           },
-        },
-      };
+        };
 
-      await context.dispatch('axios/post', data, {
-        root: true,
-      });
+        await context.dispatch('axios/post', data, {
+          root: true,
+        });
+      } catch (err) {
+        context.dispatch('dialog/error', '優惠碼不正確，請重新輸入優惠碼', {
+          root: true,
+        });
+      }
     },
   },
   mutations: {},

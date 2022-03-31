@@ -25,14 +25,14 @@
             <th class="p-2" @click="sort('title')">
               產品名稱
               <img
-                src="@/assets/long-arrow-alt-down-solid.svg"
+                src="@/assets/svg/long-arrow-alt-down-solid.svg"
                 alt="arrow"
                 class="w-[8px] inline"
                 :class="{ ' rotate-180': toSort }"
                 v-if="sortType === 'title'"
               />
               <img
-                src="@/assets/window-minimize-regular.svg"
+                src="@/assets/svg/window-minimize-regular.svg"
                 alt="minimize"
                 class="w-[8px] inline"
                 v-if="sortType !== 'title'"
@@ -42,14 +42,14 @@
             <th class="p-2" @click="sort('category')">
               分類
               <img
-                src="@/assets/long-arrow-alt-down-solid.svg"
+                src="@/assets/svg/long-arrow-alt-down-solid.svg"
                 alt="arrow"
                 class="w-[8px] inline"
                 :class="{ ' rotate-180': toSort }"
                 v-if="sortType === 'category'"
               />
               <img
-                src="@/assets/window-minimize-regular.svg"
+                src="@/assets/svg/window-minimize-regular.svg"
                 alt="minimize"
                 class="w-[8px] inline"
                 v-if="sortType !== 'category'"
@@ -58,14 +58,14 @@
             <th class="p-2" @click="sort('origin_price')">
               原價
               <img
-                src="@/assets/long-arrow-alt-down-solid.svg"
+                src="@/assets/svg/long-arrow-alt-down-solid.svg"
                 alt="arrow"
                 class="w-[8px] inline"
                 :class="{ ' rotate-180': toSort }"
                 v-if="sortType === 'origin_price'"
               />
               <img
-                src="@/assets/window-minimize-regular.svg"
+                src="@/assets/svg/window-minimize-regular.svg"
                 alt="minimize"
                 class="w-[8px] inline"
                 v-if="sortType !== 'origin_price'"
@@ -74,14 +74,14 @@
             <th class="p-2" @click="sort('price')">
               售價
               <img
-                src="@/assets/long-arrow-alt-down-solid.svg"
+                src="@/assets/svg/long-arrow-alt-down-solid.svg"
                 alt="arrow"
                 class="w-[8px] inline"
                 :class="{ ' rotate-180': toSort }"
                 v-if="sortType === 'price'"
               />
               <img
-                src="@/assets/window-minimize-regular.svg"
+                src="@/assets/svg/window-minimize-regular.svg"
                 alt="minimize"
                 class="w-[8px] inline"
                 v-if="sortType !== 'price'"
@@ -90,14 +90,14 @@
             <th class="p-2" @click="sort('is_enabled')">
               是否上架
               <img
-                src="@/assets/long-arrow-alt-down-solid.svg"
+                src="@/assets/svg/long-arrow-alt-down-solid.svg"
                 alt="arrow"
                 class="w-[8px] inline"
                 :class="{ ' rotate-180': toSort }"
                 v-if="sortType === 'is_enabled'"
               />
               <img
-                src="@/assets/window-minimize-regular.svg"
+                src="@/assets/svg/window-minimize-regular.svg"
                 alt="minimize"
                 class="w-[8px] inline"
                 v-if="sortType !== 'is_enabled'"
@@ -123,27 +123,24 @@
               {{ product[1].is_enabled === 0 ? '未上架' : '上架' }}
             </td>
             <td>
-              <base-btn outline @click="showEditProduct(product[1])" class="mr-2">變更</base-btn>
-              <base-btn red-outline @click="tryDeleteProduct(product[1])">刪除</base-btn>
+              <BaseBtn outline @click="showEditProduct(product[1])" class="mr-2">變更</BaseBtn>
+              <BaseBtn red-outline @click="tryDeleteProduct(product[1])">刪除</BaseBtn>
             </td>
           </tr>
         </tbody>
       </table>
     </section>
-    <!-- edit -->
-    <base-dialog :show="switchEditProduct" @close="closeEditProduct" product-model title="變更商品">
-      <product-form @product-from-data="editProduct" title="變更商品"></product-form>
-    </base-dialog>
-    <!-- deleteCheck -->
-    <base-dialog :show="switchDeleteProduct" title="刪除商品" @close="closeDeleteProduct">
+    <BaseDialog product-model :show="isEditProduct" @close="toggleIsEditProduct" title="變更商品">
+      <ProductForm @close="toggleIsEditProduct" />
+    </BaseDialog>
+    <BaseDialog title="刪除商品" :show="isDeleteProduct" @close="toggleIsDeleteProduct">
       <p class="mb-2 text-2xl">確定要刪除商品？ 刪除後無法回復</p>
       <div class="flex">
-        <base-btn class="w-full mr-2" outline @click="closeDeleteProduct">否</base-btn>
-        <base-btn class="w-full" red-outline @click="deleteProduct">是</base-btn>
+        <BaseBtn class="w-full mr-2" outline @click="toggleIsDeleteProduct">否</BaseBtn>
+        <BaseBtn class="w-full" red-outline @click="deleteProduct">是</BaseBtn>
       </div>
-    </base-dialog>
-    <!-- pagination -->
-    <base-pagination></base-pagination>
+    </BaseDialog>
+    <BasePagination />
   </div>
 </template>
 
@@ -151,15 +148,14 @@
 import ProductForm from './ProductForm.vue';
 
 export default {
-  emits: ['delete-product', 'edit-product-data'],
   components: { ProductForm },
   data() {
     return {
-      switchEditProduct: false,
       sortType: 'title',
       toSort: false,
-      switchDeleteProduct: false,
       deleteProductId: null,
+      isDeleteProduct: false,
+      isEditProduct: false,
     };
   },
   computed: {
@@ -189,31 +185,26 @@ export default {
   methods: {
     showEditProduct(product) {
       this.$store.dispatch('backstageProducts/getEditProductData', product);
-      this.switchEditProduct = true;
+      this.toggleIsEditProduct();
     },
-
-    closeEditProduct() {
-      this.switchEditProduct = false;
+    toggleIsEditProduct() {
+      this.isEditProduct = !this.isEditProduct;
     },
     tryDeleteProduct(product) {
-      this.switchDeleteProduct = true;
       const { id } = product;
       this.deleteProductId = id;
+      this.toggleIsDeleteProduct();
     },
-    editProduct(product) {
-      this.switchEditProduct = false;
-      this.$emit('edit-product-data', product);
+    async deleteProduct() {
+      this.toggleIsDeleteProduct();
+      await this.$store.dispatch('backstageProducts/deleteProduct', this.deleteProductId);
+    },
+    toggleIsDeleteProduct() {
+      this.isDeleteProduct = !this.isDeleteProduct;
     },
     sort(type) {
       this.toSort = !this.toSort;
       this.sortType = type;
-    },
-    closeDeleteProduct() {
-      this.switchDeleteProduct = false;
-    },
-    deleteProduct() {
-      this.switchDeleteProduct = false;
-      this.$emit('delete-product', this.deleteProductId);
     },
   },
 };

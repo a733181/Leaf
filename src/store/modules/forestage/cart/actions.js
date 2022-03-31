@@ -1,21 +1,31 @@
 export default {
   async addCart(context, payload) {
-    const data = {
-      url: 'api/tita/cart',
-      data: {
-        ...payload,
-      },
-    };
+    try {
+      const data = {
+        url: 'api/tita/cart',
+        data: {
+          ...payload,
+        },
+      };
+      const res = await context.dispatch('axios/post', data, {
+        root: true,
+      });
+      if (res.data.message) {
+        context.commit('getAddCartMessage', true);
+      }
 
-    const res = await context.dispatch('axios/post', data, {
-      root: true,
-    });
-
-    context.commit('addCart', res.data.message);
+      const productsData = context.rootGetters['forestageProducts/productsData'];
+      const [addCartProduct] = productsData.filter((item) => item.id === payload.data.product_id);
+      context.commit('getAddCartProduct', addCartProduct);
+      context.dispatch('getCart');
+    } catch (err) {
+      context.dispatch('dialog/error', err.message, {
+        root: true,
+      });
+    }
   },
   async getCart(context) {
     const url = 'api/tita/cart';
-
     const res = await context.dispatch('axios/get', url, {
       root: true,
     });

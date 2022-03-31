@@ -7,7 +7,7 @@
         @click="previousPage()"
       >
         <img
-          src="@/assets/arrow.svg"
+          src="@/assets/svg/arrow.svg"
           alt="previousPage"
           class="w-[30px] h-[30px] hover:opacity-60"
         />
@@ -27,7 +27,7 @@
         @click="nextPage()"
       >
         <img
-          src="@/assets/arrow.svg"
+          src="@/assets/svg/arrow.svg"
           alt="previousPage"
           class="w-[30px] h-[30px] hover:opacity-60 rotate-180"
         />

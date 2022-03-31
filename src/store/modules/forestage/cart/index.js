@@ -7,6 +7,7 @@ export default {
   state() {
     return {
       cartData: [],
+      addCartProduct: {},
       addCartMessage: '',
       orderInformation: '',
     };

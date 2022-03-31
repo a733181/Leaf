@@ -1,40 +1,42 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import store from '../store/index';
+import store from '@/store/index';
 
 const routes = [
   {
     path: '/',
-    component: () => import('../views/forestage/ForestageView.vue'),
+    component: () => import('@/views/forestage/ForestageView.vue'),
     redirect: '/home',
     children: [
       {
         path: 'home',
-        component: () => import('../views/forestage/Home.vue'),
+        component: () => import('@/views/forestage/Home.vue'),
       },
       {
         path: 'products',
-        component: () => import('../views/forestage/ProductsView.vue'),
+        component: () => import('@/views/forestage/ProductsView.vue'),
       },
       {
         path: 'products/:id',
-        component: () => import('../views/forestage/ProductDetailView.vue'),
+        component: () => import('@/views/forestage/ProductDetailView.vue'),
       },
       {
         path: 'cart',
-        component: () => import('../views/forestage/CartView.vue'),
+        component: () => import('@/views/forestage/CartView.vue'),
       },
       {
         path: 'order',
-        component: () => import('../views/forestage/order/OrderView.vue'),
+        component: () => import('@/views/forestage/order/OrderView.vue'),
       },
       {
         path: 'orderinformation',
-        component: () => import('../views/forestage/order/OrderInformationView.vue'),
+        component: () => import('@/views/forestage/order/OrderInformationView.vue'),
       },
       {
         path: 'ordercheck',
-        component: () => import('../views/forestage/order/OrderCheck.vue'),
+        component: () => import('@/views/forestage/order/OrderCheck.vue'),
       },
+      { path: 'question', component: () => import('@/views/forestage/Question.vue') },
+      { path: 'about', component: () => import('@/views/forestage/About.vue') },
     ],
   },
   {
@@ -43,7 +45,7 @@ const routes = [
   },
   {
     path: '/admin',
-    component: () => import('../views/backstage/BackstageView.vue'),
+    component: () => import('@/views/backstage/BackstageView.vue'),
     redirect: '/admin/products',
     children: [
       {
@@ -51,28 +53,28 @@ const routes = [
         meta: {
           hiddenHeader: true,
         },
-        component: () => import('../views/backstage/LoginView.vue'),
+        component: () => import('@/views/backstage/LoginView.vue'),
       },
       {
         path: 'products',
         meta: {
           requiresAuth: true,
         },
-        component: () => import('../views/backstage/ProductsView.vue'),
+        component: () => import('@/views/backstage/ProductsView.vue'),
       },
       {
         path: 'order',
         meta: {
           requiresAuth: true,
         },
-        component: () => import('../views/backstage/OrderView.vue'),
+        component: () => import('@/views/backstage/OrderView.vue'),
       },
       {
         path: 'coupon',
         meta: {
           requiresAuth: true,
         },
-        component: () => import('../views/backstage/CouponView.vue'),
+        component: () => import('@/views/backstage/CouponView.vue'),
       },
     ],
   },

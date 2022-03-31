@@ -1,45 +1,72 @@
 export default {
   async getCoupon(context) {
-    const url = 'api/tita/admin/coupons';
-    const res = await context.dispatch('axios/get', url, {
-      root: true,
-    });
-    context.commit('getCoupon', res.data.coupons);
+    try {
+      const url = 'api/tita/admin/coupons';
+      const res = await context.dispatch('axios/get', url, {
+        root: true,
+      });
+      context.commit('getCoupon', res.data.coupons);
+    } catch (err) {
+      context.dispatch('dialog/error', err.message, {
+        root: true,
+      });
+    }
   },
   async addCoupon(context, payload) {
-    const data = {
-      url: 'api/tita/admin/coupon',
-      data: {
+    try {
+      const data = {
+        url: 'api/tita/admin/coupon',
         data: {
-          ...payload,
+          data: {
+            ...payload,
+          },
         },
-      },
-    };
-    await context.dispatch('axios/post', data, {
-      root: true,
-    });
+      };
+      await context.dispatch('axios/post', data, {
+        root: true,
+      });
+      context.dispatch('getCoupon');
+    } catch (err) {
+      context.dispatch('dialog/error', err.message, {
+        root: true,
+      });
+    }
   },
   getEditCouponData(context, payload) {
     const data = JSON.parse(JSON.stringify(payload));
     context.commit('getEditCouponData', data);
   },
   async editCoupon(context, payload) {
-    const data = {
-      url: `api/tita/admin/coupon/${payload.id}`,
-      data: {
+    try {
+      const data = {
+        url: `api/tita/admin/coupon/${payload.id}`,
         data: {
-          ...payload,
+          data: {
+            ...payload,
+          },
         },
-      },
-    };
-    await context.dispatch('axios/put', data, {
-      root: true,
-    });
+      };
+      await context.dispatch('axios/put', data, {
+        root: true,
+      });
+      context.dispatch('getCoupon');
+    } catch (err) {
+      context.dispatch('dialog/error', err.message, {
+        root: true,
+      });
+    }
   },
   async deleteCoupon(context, payload) {
-    const url = `api/tita/admin/coupon/${payload}`;
-    await context.dispatch('axios/delete', url, {
-      root: true,
-    });
+    try {
+      const url = `api/tita/admin/coupon/${payload}`;
+      await context.dispatch('axios/delete', url, {
+        root: true,
+      });
+      context.dispatch('getCoupon');
+    } catch (err) {
+      context.dispatch('dialog/error', err.message, {
+        root: true,
+      });
+    }
   },
 };

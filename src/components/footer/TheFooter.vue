@@ -8,9 +8,9 @@
         <a href="https://discordapp.com/users/868355995334737961" class="mr-2 underline">SYUAN</a>
         <p>2022 Vue 直播班作品</p>
       </div>
-      <router-link to="/admin/order" class="underline lg:ml-auto" v-if="!adminLogin">
+      <RouterLink to="/admin/order" class="underline lg:ml-auto" v-if="!adminLogin">
         <p>管理員登入</p>
-      </router-link>
+      </RouterLink>
     </div>
   </footer>
 </template>

@@ -34,16 +34,16 @@
     </div>
     <div class="mb-3">
       <label for="due_date">到期日</label>
-      <datepicker v-model="date" autoApply :format="format" required />
+      <Datepicker v-model="date" autoApply :format="format" required />
     </div>
     <div class="mb-6">
       <label for="isEnable" class="mr-2">是否啟用</label>
       <input type="checkbox" id="isEnable" v-model="data.is_enabled" :checked="data.is_enabled" />
     </div>
     <div class="flex justify-between gap-4">
-      <base-btn red-outline class="w-1/2" @click="clearForm" v-if="addCouponModel">清除</base-btn>
-      <base-btn red-outline class="w-1/2" @click="closeCouponForm" v-else>取消</base-btn>
-      <base-btn submit class="w-1/2">送出</base-btn>
+      <BaseBtn red-outline class="w-1/2" @click="clearForm" v-if="addCouponModel">清除</BaseBtn>
+      <BaseBtn red-outline class="w-1/2" @click="close" v-else>取消</BaseBtn>
+      <BaseBtn type="submit" class="w-1/2">送出</BaseBtn>
     </div>
   </form>
 </template>
@@ -61,7 +61,7 @@ export default {
       default: false,
     },
   },
-  emits: ['close-coupon-form', 'coupon-data'],
+  emits: ['close'],
   data() {
     return {
       data: {
@@ -87,26 +87,26 @@ export default {
         this.errorType = 'code';
         return;
       }
-      /* eslint-disable operator-linebreak
-       */
       if (
-        this.data.percent === null ||
-        this.data.percent === '' ||
-        this.data.percent <= 0 ||
-        this.data.percent >= 100
+        this.data.percent === null
+        || this.data.percent === ''
+        || this.data.percent <= 0
+        || this.data.percent >= 100
       ) {
         this.errorType = 'percent';
         return;
       }
-      /* eslint-enable operator-linebreak
-       */
-      console.log(this.data.percent === '' || this.data.percent === null);
       const date = Date.parse(this.date);
       this.data.due_date = date;
       this.data.is_enabled = this.data.is_enabled ? 1 : 0;
-      this.$emit('coupon-data', this.data);
+
+      if (this.addCouponModel) {
+        this.addCoupon();
+      } else {
+        this.editCoupon();
+      }
       this.clearForm();
-      this.closeCouponForm();
+      this.close();
     },
     format(date) {
       const day = date.getDate();
@@ -125,8 +125,14 @@ export default {
       }
       return 'border-gray-400';
     },
-    closeCouponForm() {
-      this.$emit('close-coupon-form');
+    async addCoupon() {
+      await this.$store.dispatch('backstageCoupon/addCoupon', this.data);
+    },
+    async editCoupon() {
+      await this.$store.dispatch('backstageCoupon/editCoupon', this.data);
+    },
+    close() {
+      this.$emit('close');
     },
     clearForm() {
       if (this.addCouponModel) {

@@ -5,14 +5,14 @@
         <th class="p-2" @click="sort('title')">
           名稱
           <img
-            src="@/assets/long-arrow-alt-down-solid.svg"
+            src="@/assets/svg/long-arrow-alt-down-solid.svg"
             alt="arrow"
             class="w-[8px] inline"
             :class="{ ' rotate-180': toSort }"
             v-if="sortType === 'title'"
           />
           <img
-            src="@/assets/window-minimize-regular.svg"
+            src="@/assets/svg/window-minimize-regular.svg"
             alt="minimize"
             class="w-[8px] inline"
             v-if="sortType !== 'title'"
@@ -21,14 +21,14 @@
         <th class="p-2" @click="sort('code')">
           優惠碼
           <img
-            src="@/assets/long-arrow-alt-down-solid.svg"
+            src="@/assets/svg/long-arrow-alt-down-solid.svg"
             alt="arrow"
             class="w-[8px] inline"
             :class="{ ' rotate-180': toSort }"
             v-if="sortType === 'code'"
           />
           <img
-            src="@/assets/window-minimize-regular.svg"
+            src="@/assets/svg/window-minimize-regular.svg"
             alt="minimize"
             class="w-[8px] inline"
             v-if="sortType !== 'code'"
@@ -37,14 +37,14 @@
         <th class="p-2" @click="sort('percent')">
           折扣百分比
           <img
-            src="@/assets/long-arrow-alt-down-solid.svg"
+            src="@/assets/svg/long-arrow-alt-down-solid.svg"
             alt="arrow"
             class="w-[8px] inline"
             :class="{ ' rotate-180': toSort }"
             v-if="sortType === 'percent'"
           />
           <img
-            src="@/assets/window-minimize-regular.svg"
+            src="@/assets/svg/window-minimize-regular.svg"
             alt="minimize"
             class="w-[8px] inline"
             v-if="sortType !== 'percent'"
@@ -53,14 +53,14 @@
         <th class="p-2" @click="sort('due_date')">
           到期日
           <img
-            src="@/assets/long-arrow-alt-down-solid.svg"
+            src="@/assets/svg/long-arrow-alt-down-solid.svg"
             alt="arrow"
             class="w-[8px] inline"
             :class="{ ' rotate-180': toSort }"
             v-if="sortType === 'due_date'"
           />
           <img
-            src="@/assets/window-minimize-regular.svg"
+            src="@/assets/svg/window-minimize-regular.svg"
             alt="minimize"
             class="w-[8px] inline"
             v-if="sortType !== 'due_date'"
@@ -69,14 +69,14 @@
         <th class="p-2" @click="sort('is_enabled')">
           是否啟用
           <img
-            src="@/assets/long-arrow-alt-down-solid.svg"
+            src="@/assets/svg/long-arrow-alt-down-solid.svg"
             alt="arrow"
             class="w-[8px] inline"
             :class="{ ' rotate-180': toSort }"
             v-if="sortType === 'is_enabled'"
           />
           <img
-            src="@/assets/window-minimize-regular.svg"
+            src="@/assets/svg/window-minimize-regular.svg"
             alt="minimize"
             class="w-[8px] inline"
             v-if="sortType !== 'is_enabled'"
@@ -95,18 +95,16 @@
           {{ coupon.is_enabled === 0 ? '未啟用' : '啟用' }}
         </td>
         <td class="p-2">
-          <base-btn outline class="mr-2" @click="tryEditCoupon(coupon)">變更</base-btn>
+          <BaseBtn outline class="mr-2" @click="tryEditCoupon(coupon)">變更</BaseBtn>
           <base-btn red-outline @click="deleteCoupon(coupon.id)">刪除</base-btn>
         </td>
       </tr>
     </tbody>
   </table>
-  <!-- edit -->
-  <base-dialog :show="switchEditCoupon" productModel @close="closeEditCoupon" title="變更優惠碼">
-    <coupon-form @close-coupon-form="closeEditCoupon" @coupon-data="editCoupon"></coupon-form>
-  </base-dialog>
-  <!-- pagination -->
-  <base-pagination></base-pagination>
+  <BaseDialog :show="isEditCoupon" productModel @close="toggleIsEditCoupon" title="變更優惠碼">
+    <CouponForm @close="toggleIsEditCoupon" />
+  </BaseDialog>
+  <BasePagination />
 </template>
 
 <script>
@@ -114,10 +112,9 @@ import CouponForm from './CouponForm.vue';
 
 export default {
   components: { CouponForm },
-  emits: ['edit-coupon-data', 'delete-coupon-id'],
   data() {
     return {
-      switchEditCoupon: false,
+      isEditCoupon: false,
       sortType: 'title',
       toSort: false,
     };
@@ -166,16 +163,13 @@ export default {
     },
     tryEditCoupon(data) {
       this.$store.dispatch('backstageCoupon/getEditCouponData', data);
-      this.switchEditCoupon = true;
+      this.toggleIsEditCoupon();
     },
-    closeEditCoupon() {
-      this.switchEditCoupon = false;
+    toggleIsEditCoupon() {
+      this.isEditCoupon = !this.isEditCoupon;
     },
-    editCoupon(data) {
-      this.$emit('edit-coupon-data', data);
-    },
-    deleteCoupon(id) {
-      this.$emit('delete-coupon-id', id);
+    async deleteCoupon(id) {
+      await this.$store.dispatch('backstageCoupon/deleteCoupon', id);
     },
   },
 };

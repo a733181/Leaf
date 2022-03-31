@@ -17,11 +17,17 @@
 
 <script>
 export default {
-  props: ['category-list', 'active-category'],
-  emits: ['filter-product'],
+  computed: {
+    categoryList() {
+      return this.$store.getters['forestageProducts/productCategory'];
+    },
+    activeCategory() {
+      return this.$store.getters['forestageProducts/filterProductCategory'];
+    },
+  },
   methods: {
     filterProduct(category) {
-      this.$emit('filter-product', category);
+      this.$store.dispatch('forestageProducts/getFilterProductCategory', category);
     },
   },
 };

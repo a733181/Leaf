@@ -1,5 +1,5 @@
 <template>
-  <ul class="grid grid-cols-1 mb-8 lg:text-lg sm:grid-cols-3">
+  <ul class="grid grid-cols-1 mb-8 lg:text-lg sm:grid-cols-4">
     <li
       :class="
         mode === 'cart'
@@ -7,7 +7,7 @@
           : ['breadcrumb-item', 'breadcrumb-right-arrow']
       "
     >
-      購物車
+      1.購物車
     </li>
     <li
       :class="
@@ -16,9 +16,20 @@
           : ['breadcrumb-item', 'breadcrumb-right-arrow']
       "
     >
-      輸入訂購人資訊
+      2.輸入訂購人資訊
     </li>
-    <li :class="mode === 'check' ? 'breadcrumb-active' : 'breadcrumb-item'">確認訂單詳情</li>
+
+    <li
+      :class="
+        mode === 'check'
+          ? ['breadcrumb-active', 'breadcrumb-active-right-arrow']
+          : ['breadcrumb-item', 'breadcrumb-right-arrow']
+      "
+    >
+      3.確認訂單詳情
+    </li>
+
+    <li :class="mode === 'pay' ? 'breadcrumb-active' : 'breadcrumb-item'">4.訂單付款</li>
   </ul>
 </template>
 

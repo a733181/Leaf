@@ -7,7 +7,9 @@ export default {
   state() {
     return {
       products: [],
-      Product: [],
+      productCategoryList: [],
+      filterProductCategory: '全部商品',
+      productAddCartId: '',
     };
   },
   actions,

@@ -2,22 +2,23 @@
   <teleport to="body">
     <div
       class="fixed top-0 left-0 z-20 w-full h-full bg-black/30"
-      v-if="show"
-      @click="tryClose"
+      v-if="open || !!error"
+      @click="close"
     ></div>
     <transition name="dialog">
-      <div class="dialog" open v-if="show" :class="positionClass">
+      <div class="dialog" open v-if="open || !!error" :class="positionClass">
         <header class="flex items-center justify-between p-3" :class="headerClass">
           <h2 class="text-xl text-white lg:text-2xl">{{ title }}</h2>
           <img
-            src="@/assets/times-solid.svg"
+            src="@/assets/svg/times-solid.svg"
             alt="close"
             class="w-[20px] hover:scale-150"
-            @click="tryClose"
+            @click="close"
           />
         </header>
         <div class="p-3">
           <slot></slot>
+          <p v-if="!!error">{{ error }}</p>
         </div>
       </div>
     </transition>
@@ -29,11 +30,12 @@ export default {
   props: {
     show: {
       type: Boolean,
-      required: true,
+      required: false,
     },
     title: {
       type: String,
       required: false,
+      default: 'Error',
     },
     productModel: {
       type: Boolean,
@@ -41,7 +43,20 @@ export default {
     },
   },
   emits: ['close'],
+  data() {
+    return {
+      open: false,
+    };
+  },
+  watch: {
+    show() {
+      this.open = this.show;
+    },
+  },
   computed: {
+    error() {
+      return this.$store.getters['dialog/error'];
+    },
     headerClass() {
       if (this.title.includes('刪除')) {
         return 'bg-red-600';
@@ -56,7 +71,9 @@ export default {
     },
   },
   methods: {
-    tryClose() {
+    close() {
+      this.open = false;
+      this.$store.dispatch('dialog/error', null);
       this.$emit('close');
     },
   },

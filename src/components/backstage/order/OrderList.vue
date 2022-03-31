@@ -23,14 +23,14 @@
         <th class="p-2" @click="sort('id')">
           訂單編號
           <img
-            src="@/assets/long-arrow-alt-down-solid.svg"
+            src="@/assets/svg/long-arrow-alt-down-solid.svg"
             alt="arrow"
             class="w-[8px] inline"
             :class="{ ' rotate-180': toSort }"
             v-if="sortType === 'id'"
           />
           <img
-            src="@/assets/window-minimize-regular.svg"
+            src="@/assets/svg/window-minimize-regular.svg"
             alt="minimize"
             class="w-[8px] inline"
             v-if="sortType !== 'id'"
@@ -39,14 +39,14 @@
         <th class="p-2" @click="sort('name')">
           姓名
           <img
-            src="@/assets/long-arrow-alt-down-solid.svg"
+            src="@/assets/svg/long-arrow-alt-down-solid.svg"
             alt="arrow"
             class="w-[8px] inline"
             :class="{ ' rotate-180': toSort }"
             v-if="sortType === 'name'"
           />
           <img
-            src="@/assets/window-minimize-regular.svg"
+            src="@/assets/svg/window-minimize-regular.svg"
             alt="minimize"
             class="w-[8px] inline"
             v-if="sortType !== 'name'"
@@ -55,14 +55,14 @@
         <th class="p-2" @click="sort('address')">
           地址
           <img
-            src="@/assets/long-arrow-alt-down-solid.svg"
+            src="@/assets/svg/long-arrow-alt-down-solid.svg"
             alt="arrow"
             class="w-[8px] inline"
             :class="{ ' rotate-180': toSort }"
             v-if="sortType === 'address'"
           />
           <img
-            src="@/assets/window-minimize-regular.svg"
+            src="@/assets/svg/window-minimize-regular.svg"
             alt="minimize"
             class="w-[8px] inline"
             v-if="sortType !== 'address'"
@@ -71,14 +71,14 @@
         <th class="p-2" @click="sort('tel')">
           電話
           <img
-            src="@/assets/long-arrow-alt-down-solid.svg"
+            src="@/assets/svg/long-arrow-alt-down-solid.svg"
             alt="arrow"
             class="w-[8px] inline"
             :class="{ ' rotate-180': toSort }"
             v-if="sortType === 'tel'"
           />
           <img
-            src="@/assets/window-minimize-regular.svg"
+            src="@/assets/svg/window-minimize-regular.svg"
             alt="minimize"
             class="w-[8px] inline"
             v-if="sortType !== 'tel'"
@@ -87,14 +87,14 @@
         <th class="p-2" @click="sort('create_at')">
           成立時間
           <img
-            src="@/assets/long-arrow-alt-down-solid.svg"
+            src="@/assets/svg/long-arrow-alt-down-solid.svg"
             alt="arrow"
             class="w-[8px] inline"
             :class="{ ' rotate-180': toSort }"
             v-if="sortType === 'create_at'"
           />
           <img
-            src="@/assets/window-minimize-regular.svg"
+            src="@/assets/svg/window-minimize-regular.svg"
             alt="minimize"
             class="w-[8px] inline"
             v-if="sortType !== 'create_at'"
@@ -103,31 +103,47 @@
         <th class="p-2" @click="sort('is_paid')">
           是否付款
           <img
-            src="@/assets/long-arrow-alt-down-solid.svg"
+            src="@/assets/svg/long-arrow-alt-down-solid.svg"
             alt="arrow"
             class="w-[8px] inline"
             :class="{ ' rotate-180': toSort }"
             v-if="sortType === 'is_paid'"
           />
           <img
-            src="@/assets/window-minimize-regular.svg"
+            src="@/assets/svg/window-minimize-regular.svg"
             alt="minimize"
             class="w-[8px] inline"
             v-if="sortType !== 'is_paid'"
+          />
+        </th>
+        <th class="p-2" @click="sort('paid_date')">
+          付款時間
+          <img
+            src="@/assets/svg/long-arrow-alt-down-solid.svg"
+            alt="arrow"
+            class="w-[8px] inline"
+            :class="{ ' rotate-180': toSort }"
+            v-if="sortType === 'paid_date'"
+          />
+          <img
+            src="@/assets/svg/window-minimize-regular.svg"
+            alt="minimize"
+            class="w-[8px] inline"
+            v-if="sortType !== 'paid_date'"
           />
         </th>
         <th class="p-2">商品明細</th>
         <th class="p-2" @click="sort('total')">
           總金額
           <img
-            src="@/assets/long-arrow-alt-down-solid.svg"
+            src="@/assets/svg/long-arrow-alt-down-solid.svg"
             alt="arrow"
             class="w-[8px] inline"
             :class="{ ' rotate-180': toSort }"
             v-if="sortType === 'total'"
           />
           <img
-            src="@/assets/window-minimize-regular.svg"
+            src="@/assets/svg/window-minimize-regular.svg"
             alt="minimize"
             class="w-[8px] inline"
             v-if="sortType !== 'total'"
@@ -146,38 +162,28 @@
         <td :class="{ 'text-red-600': !order.is_paid }">
           {{ order.is_paid ? '已付款' : '未付款' }}
         </td>
+        <td>{{ changeDate(order.paid_date) }}</td>
         <td class="p-2">
-          <base-btn @click="showProductList(order.products)">明細</base-btn>
+          <BaseBtn @click="tryShowProductList(order.products)">明細</BaseBtn>
         </td>
-        <td>{{ order.total }}</td>
+        <td>{{ Math.round(order.total) }}</td>
         <td>
-          <base-btn outline class="mr-2" @click="showEditOrder(order)">變更</base-btn>
+          <BaseBtn outline class="mr-2" @click="editOrder(order)">變更</BaseBtn>
           <base-btn red-outline @click="tryDeleteOrder(order.id)">刪除</base-btn>
         </td>
       </tr>
     </tbody>
   </table>
-  <!-- edit -->
-  <base-dialog :show="switchEditOrder" productModel @close="closeEditOrder" title="變更訂單狀態">
-    <order-edit
-      :edit-order="editOrder"
-      @close-edit-order="closeEditOrder"
-      @edit-order-data="editOrderData"
-    ></order-edit>
-  </base-dialog>
-  <!-- Details -->
-  <base-dialog :show="switchProductList" title="商品明細" @close="closeProductList" productModel>
-    <product-list :products="productList"></product-list>
-  </base-dialog>
-  <!-- deleteCheck -->
-  <base-dialog :show="switchDeleteOrder" title="刪除訂單" @close="closeDeleteOrder">
-    <delete-order-check
-      @close-delete-order="closeDeleteOrder"
-      @delete-order="deleteOrder"
-    ></delete-order-check>
-  </base-dialog>
-  <!-- pagination -->
-  <base-pagination></base-pagination>
+  <BaseDialog :show="isEditOrder" productModel title="變更訂單狀態" @close="toggleIsEditOrder">
+    <OrderEdit @close="toggleIsEditOrder" />
+  </BaseDialog>
+  <BaseDialog :show="showProductList" title="商品明細" @close="toggleShowProductList" productModel>
+    <ProductList :products="productList" />
+  </BaseDialog>
+  <BaseDialog :show="isDeleteOrder" title="刪除訂單" @close="toggleIsDeleteOrder">
+    <DeleteOrderCheck @close="toggleIsDeleteOrder" />
+  </BaseDialog>
+  <BasePagination />
 </template>
 
 <script>
@@ -193,13 +199,11 @@ export default {
     return {
       sortType: 'id',
       toSort: false,
-      switchProductList: false,
+      isEditOrder: false,
+      showProductList: false,
       productList: [],
       orderLength: '',
-      switchEditOrder: false,
-      editOrder: {},
-      switchDeleteOrder: false,
-      deleteOrderId: '',
+      isDeleteOrder: false,
     };
   },
   computed: {
@@ -248,35 +252,34 @@ export default {
       this.toSort = !this.toSort;
       this.sortType = type;
     },
-    showProductList(product) {
+    tryShowProductList(product) {
       const productArr = Object.entries(product).map((item) => item[1]);
       this.productList = productArr;
-      this.switchProductList = true;
+      this.toggleShowProductList();
     },
-    closeProductList() {
-      this.switchProductList = false;
-    },
-    showEditOrder(order) {
-      this.editOrder = order;
-      this.switchEditOrder = true;
-    },
-    editOrderData(data) {
-      this.$emit('edit-order-data', data);
-    },
-    closeEditOrder() {
-      this.switchEditOrder = false;
+    editOrder(order) {
+      this.$store.dispatch('backstageOrder/getEditOrder', order);
+      this.toggleIsEditOrder();
     },
     tryDeleteOrder(id) {
-      this.deleteOrderId = id;
-      this.switchDeleteOrder = true;
+      this.$store.dispatch('backstageOrder/getDeleteOrder', id);
+      this.toggleIsDeleteOrder();
     },
-    deleteOrder() {
-      this.$emit('delete-order', this.deleteOrderId);
-      this.switchDeleteOrder = false;
+    toggleShowProductList() {
+      this.showProductList = !this.showProductList;
     },
-    closeDeleteOrder() {
-      this.switchDeleteOrder = false;
+    toggleIsEditOrder() {
+      this.isEditOrder = !this.isEditOrder;
+    },
+    toggleIsDeleteOrder() {
+      this.isDeleteOrder = !this.isDeleteOrder;
     },
   },
 };
 </script>
+
+<style>
+.container {
+  overflow-x: auto;
+}
+</style>

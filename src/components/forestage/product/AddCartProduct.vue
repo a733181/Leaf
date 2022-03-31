@@ -1,5 +1,8 @@
 <template>
-  <table class="w-[300px] mb-5 text-center" @click="toProductDetail(product.id)">
+  <table
+    class="w-[300px] lg:w-[350px] mb-5 text-center cursor-pointer hover:opacity-60"
+    @click="toProductDetail(product.id)"
+  >
     <tr>
       <th></th>
       <th class="px-3 py-1">數量</th>
@@ -14,27 +17,27 @@
       <td>{{ product.price }}</td>
     </tr>
   </table>
-  <!-- toCart -->
-  <router-link to="/cart">
-    <base-btn class="w-full">查看購物車</base-btn>
-  </router-link>
+  <RouterLink to="/cart">
+    <BaseBtn class="w-full">查看購物車</BaseBtn>
+  </RouterLink>
 </template>
 
 <script>
 export default {
   props: {
-    product: {
-      type: Object,
-      required: true,
-    },
     quantity: {
       type: [String, Number],
       required: true,
     },
   },
+  computed: {
+    product() {
+      return this.$store.getters['forestageCart/addCartProduct'];
+    },
+  },
   methods: {
     toProductDetail(id) {
-      const path = `/product/${id}`;
+      const path = `/products/${id}`;
       this.$router.push(path);
     },
   },

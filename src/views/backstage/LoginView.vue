@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center justify-center min-h-[calc(100vh-80px)]">
     <section class="container max-w-[540px]">
-      <h1 class="mb-6 text-4xl font-bold text-center">管理員登入</h1>
+      <h2 class="mb-6 text-4xl font-bold text-center">管理員登入</h2>
       <form action="" @submit.prevent="submitForm">
         <p v-show="email.isValue" class="mb-1 text-red-400">請輸入 Email</p>
         <input
@@ -21,16 +21,12 @@
           v-model="password.value"
           @blur="password.isValue = false"
         />
-        <base-btn class="w-full h-[55px]" submit>登入</base-btn>
+        <BaseBtn class="w-full h-[55px]" type="submit">登入</BaseBtn>
       </form>
     </section>
+    <BaseLoading />
+    <BaseDialog />
   </div>
-  <!-- loading -->
-  <base-loading :show="isLoading"></base-loading>
-  <!-- error -->
-  <base-dialog :show="!!error" title="Error" @close="closeError">
-    {{ error }}
-  </base-dialog>
 </template>
 
 <script>
@@ -45,8 +41,6 @@ export default {
         isValue: false,
         value: '',
       },
-      error: null,
-      isLoading: false,
     };
   },
   methods: {
@@ -60,23 +54,16 @@ export default {
         return;
       }
 
-      try {
-        this.isLoading = true;
-        const auth = {
-          data: {
-            username: this.email.value,
-            password: this.password.value,
-          },
-        };
-        await this.$store.dispatch('backstageAuth/login', auth);
-        this.$router.replace('/admin/products');
-      } catch (err) {
-        this.error = err.message;
-        this.isLoading = false;
-      }
-    },
-    closeError() {
-      this.error = null;
+      this.$store.dispatch('loading/isLoading', true);
+      const auth = {
+        data: {
+          username: this.email.value,
+          password: this.password.value,
+        },
+      };
+      await this.$store.dispatch('backstageAuth/login', auth);
+      this.$router.replace('/admin/products');
+      this.$store.dispatch('loading/isLoading', false);
     },
   },
 };

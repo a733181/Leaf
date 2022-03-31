@@ -7,6 +7,8 @@ export default {
   state() {
     return {
       order: [],
+      editOrderData: {},
+      deleteOrderId: '',
     };
   },
   actions,

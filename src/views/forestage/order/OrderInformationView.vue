@@ -1,10 +1,11 @@
 <template>
-  <div class="container px-4 mx-auto pt-[112px]">
-    <breadcrumb mode="information"></breadcrumb>
+  <div class="container px-4 mx-auto pt-[130px] lg:pt-[112px]">
+    <BaseBreadcrumb name="購物車" class="mb-3" />
+    <Breadcrumb mode="information" />
     <div class="mx-auto w-[350px]">
       <v-from action="" @submit="onSubmit" v-slot="{ errors }">
         <div class="mb-9">
-          <label for="name">姓名<span class="text-red-400">*</span></label>
+          <label for="name">收件人姓名<span class="text-red-400">*</span></label>
           <field
             type="text"
             name="姓名"
@@ -12,7 +13,7 @@
             class="w-full px-2 border-b-2"
             :class="{ 'border-red-400': errors['姓名'] }"
             rules="required"
-            v-model.trim="order.name"
+            v-model.trim="order.user.name"
           />
           <error-message name="姓名" class="border-red-400"></error-message>
         </div>
@@ -25,7 +26,7 @@
             :rules="phoneNumber"
             class="w-full px-2 border-b-2"
             :class="{ 'border-red-400': errors['phone'] }"
-            v-model.trim="order.phone"
+            v-model.trim="order.user.tel"
           />
           <error-message name="phone" class="border-red-400"></error-message>
         </div>
@@ -38,12 +39,12 @@
             class="w-full px-2 border-b-2"
             :class="{ 'border-red-400': errors['email'] }"
             rules="required|email"
-            v-model.trim="order.email"
+            v-model.trim="order.user.email"
           />
           <error-message name="email" class="border-red-400"></error-message>
         </div>
         <div class="mb-9">
-          <label for="address">地址<span class="text-red-400">*</span></label>
+          <label for="address">收件地址<span class="text-red-400">*</span></label>
           <field
             type="text"
             name="地址"
@@ -51,12 +52,12 @@
             rules="required|min:8"
             class="w-full px-2 border-b-2"
             :class="{ 'border-red-400': errors['地址'] }"
-            v-model.trim="order.address"
+            v-model.trim="order.user.address"
           />
           <error-message name="地址" class="border-red-400"></error-message>
         </div>
         <div class="mb-9">
-          <label for="message">留言</label>
+          <label for="message">留給賣家的話</label>
           <textarea
             name="留言"
             id="message"
@@ -69,7 +70,7 @@
           <error-message name="留言"></error-message>
         </div>
         <div>
-          <base-btn submit class="w-full">下一步</base-btn>
+          <BaseBtn type="submit" class="w-full">下一步</BaseBtn>
         </div>
       </v-from>
     </div>
@@ -77,14 +78,14 @@
 </template>
 
 <script>
-/* eslint-disable object-curly-newline */
-import { Form as vFrom, Field, configure, defineRule, ErrorMessage } from 'vee-validate';
+import {
+  Form as vFrom, Field, configure, defineRule, ErrorMessage,
+} from 'vee-validate';
 import { required, email, min } from '@vee-validate/rules';
-/* eslint-enable  */
 import { localize } from '@vee-validate/i18n';
 import zhTW from '@vee-validate/i18n/dist/locale/zh_TW.json';
 
-import Breadcrumb from '../../../components/forestage/cart/Breadcrumb.vue';
+import Breadcrumb from '@/components/forestage/cart/Breadcrumb.vue';
 
 configure({
   generateMessage: localize('zh_TW', zhTW),
@@ -104,10 +105,12 @@ export default {
   data() {
     return {
       order: {
-        name: '',
-        email: '',
-        phone: null,
-        address: '',
+        user: {
+          name: '',
+          email: '',
+          tel: null,
+          address: '',
+        },
         message: '',
       },
     };
@@ -131,11 +134,15 @@ export default {
       }
     },
     orderClear() {
-      this.order.name = '';
-      this.order.email = '';
-      this.order.phone = null;
-      this.order.address = '';
-      this.order.message = '';
+      this.order = {
+        user: {
+          name: '',
+          email: '',
+          tel: null,
+          address: '',
+        },
+        message: '',
+      };
     },
   },
   mounted() {

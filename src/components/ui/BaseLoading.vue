@@ -2,7 +2,7 @@
   <teleport to="body">
     <div
       class="fixed top-0 left-0 z-20 flex items-center justify-center w-screen h-screen bg-black/30"
-      v-if="show"
+      v-if="isLoading"
     >
       <div class="loading">
         <span style="--i: 1"></span>
@@ -33,10 +33,9 @@
 
 <script>
 export default {
-  props: {
-    show: {
-      type: Boolean,
-      required: true,
+  computed: {
+    isLoading() {
+      return this.$store.getters['loading/isLoading'];
     },
   },
 };
@@ -103,7 +102,7 @@ export default {
 
 .rocket::before {
   content: '';
-  background-image: url('../../assets/rocket-solid.svg');
+  background-image: url('../../assets/svg/rocket-solid.svg');
   position: absolute;
   top: 80px;
   left: 85px;

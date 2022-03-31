@@ -64,21 +64,15 @@
       <input type="checkbox" id="isPaid" v-model="data.is_paid" :checked="data.is_paid" />
     </div>
     <div class="flex justify-between gap-4">
-      <base-btn red-outline class="w-1/2" @click="closeEditOrder">取消</base-btn>
-      <base-btn submit class="w-1/2">送出</base-btn>
+      <base-btn red-outline class="w-1/2" @click="close">取消</base-btn>
+      <base-btn type="submit" class="w-1/2">送出</base-btn>
     </div>
   </form>
 </template>
 
 <script>
 export default {
-  props: {
-    editOrder: {
-      type: Object,
-      required: true,
-    },
-  },
-  emits: ['close-edit-order', 'edit-order-data'],
+  emits: ['close'],
   data() {
     return {
       data: {},
@@ -86,10 +80,10 @@ export default {
     };
   },
   methods: {
-    closeEditOrder() {
-      this.$emit('close-edit-order');
+    close() {
+      this.$emit('close');
     },
-    editOrderFrom() {
+    async editOrderFrom() {
       this.errorType = '';
       if (this.data.user.name === '') {
         this.errorType = 'name';
@@ -107,8 +101,8 @@ export default {
         this.errorType = 'address';
         return;
       }
-      this.$emit('edit-order-data', this.data);
-      this.closeEditOrder();
+      await this.$store.dispatch('backstageOrder/editOrder', this.data);
+      this.close();
     },
     phoneNumber(value) {
       const phoneNumber = /^(09)[0-9]{8}$/;
@@ -124,9 +118,21 @@ export default {
       }
       return 'border-gray-400';
     },
+    format(date) {
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
+      const hours = date.getHours();
+      const minutes = date.getMinutes();
+
+      return ` ${year}/${month < 10 ? `0${month}` : month}/${day} ${
+        hours < 10 ? `0${hours}` : hours
+      }:${minutes < 10 ? `0${minutes}` : minutes}`;
+    },
   },
   created() {
-    this.data = JSON.parse(JSON.stringify(this.editOrder));
+    const editOrderData = this.$store.getters['backstageOrder/editOrderData'];
+    this.data = JSON.parse(JSON.stringify(editOrderData));
   },
 };
 </script>

@@ -3,7 +3,7 @@
     <div class="flex flex-col mb-2 lg:items-center lg:flex-row">
       <label for="coupon">優惠碼：</label>
       <input type="text" class="input" id="coupon" v-model="couponCode" />
-      <base-btn submit outline>套用</base-btn>
+      <BaseBtn type="submit" outline>套用</BaseBtn>
     </div>
   </form>
 </template>
@@ -18,11 +18,12 @@ export default {
   },
   computed: {},
   methods: {
-    couponForm() {
+    async couponForm() {
       if (this.couponCode === '') {
         return;
       }
-      this.$emit('coupon-code', this.couponCode);
+      await this.$store.dispatch('forestageCoupon/useCoupon', this.couponCode);
+      await this.$store.dispatch('forestageCart/getCart');
       this.couponCode = '';
     },
   },
