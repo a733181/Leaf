@@ -28,7 +28,7 @@ export default {
   },
   mounted() {
     this.getCoupon();
-    this.$store.dispatch('loading/isLoading', false);
+    this.$store.dispatch('loading/isLoading', true);
   },
 };
 </script>

@@ -298,6 +298,9 @@ export default {
     getEditProductData() {
       const product = this.$store.getters['backstageProducts/editProductData'];
       this.data = product;
+      if (product?.imagesUrl === undefined) {
+        this.data.imagesUrl = [];
+      }
     },
     close() {
       this.$emit('close');
