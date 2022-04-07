@@ -4,7 +4,7 @@
     <div v-if="cartData.length !== 0" class="mt-3">
       <Breadcrumb mode="cart" />
       <CartProductList :products="cartData" />
-      <div class="mt-10 ml-auto xl:w-1/3">
+      <div class="mt-10 mb-6 ml-auto xl:w-1/3">
         <UseCoupon class="mb-12" />
         <div class="flex gap-4">
           <RouterLink to="/products">

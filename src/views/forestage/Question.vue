@@ -8,12 +8,12 @@
         <li v-for="(item, index) in order" :key="index" class="border border-black">
           <p
             @click="item.show = !item.show"
-            class="px-2 py-2 pl-2 pr-6 bg-gray-50 arrow"
+            class="px-2 py-2 pl-2 pr-6 arrow"
             :class="{ active: item.show }"
           >
             {{ item.question }}
           </p>
-          <p v-show="item.show" class="px-2 py-2 pl-2 pr-6 border-t-2">
+          <p v-show="item.show" class="px-2 py-2 pl-2 pr-6 bg-gray-100 border-t-2">
             {{ item.answer }}
           </p>
         </li>
@@ -23,12 +23,14 @@
         <li v-for="(item, index) in delivery" :key="index" class="border border-black">
           <p
             @click="item.show = !item.show"
-            class="px-2 py-2 pl-2 pr-6 bg-gray-50 arrow"
+            class="px-2 py-2 pl-2 pr-6 arrow"
             :class="{ active: item.show }"
           >
             {{ item.question }}
           </p>
-          <p v-show="item.show" class="px-2 py-2 pl-2 pr-6 border-t-2">{{ item.answer }}</p>
+          <p v-show="item.show" class="px-2 py-2 pl-2 pr-6 bg-gray-100 border-t-2">
+            {{ item.answer }}
+          </p>
         </li>
       </ul>
     </div>

@@ -162,7 +162,8 @@ export default {
 }
 
 .move {
-  animation: move 5s;
+  animation: move 0.6s;
+  animation-iteration-count: 3;
 }
 
 @keyframes move {
