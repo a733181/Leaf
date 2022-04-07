@@ -2,11 +2,14 @@
   <div class="container px-4 mx-auto pt-[130px] lg:pt-[112px]">
     <BaseBreadcrumb name="購物車" class="mb-3" />
     <Breadcrumb mode="information" />
-    <div class="mx-auto w-[350px]">
-      <v-from action="" @submit="onSubmit" v-slot="{ errors }">
-        <div class="mb-9">
+    <h2 class="mb-3 text-2xl font-bold">您選購的商品</h2>
+    <CartProductList :products="cartData" order />
+    <div class="max-w-[600px] mx-auto">
+      <h3 class="mb-3 text-2xl font-bold">收件資訊</h3>
+      <VFrom action="" @submit="onSubmit" v-slot="{ errors }">
+        <div class="w-full mb-3">
           <label for="name">收件人姓名<span class="text-red-400">*</span></label>
-          <field
+          <Field
             type="text"
             name="姓名"
             id="name"
@@ -15,24 +18,11 @@
             rules="required"
             v-model.trim="order.user.name"
           />
-          <error-message name="姓名" class="border-red-400"></error-message>
+          <ErrorMessage name="姓名" class="border-red-400" />
         </div>
-        <div class="mb-9">
-          <label for="phone">手機號碼<span class="text-red-400">*</span></label>
-          <field
-            type="tel"
-            name="phone"
-            id="phone"
-            :rules="phoneNumber"
-            class="w-full px-2 border-b-2"
-            :class="{ 'border-red-400': errors['phone'] }"
-            v-model.trim="order.user.tel"
-          />
-          <error-message name="phone" class="border-red-400"></error-message>
-        </div>
-        <div class="mb-9">
+        <div class="w-full mb-3">
           <label for="email">Email<span class="text-red-400">*</span></label>
-          <field
+          <Field
             type="email"
             name="email"
             id="email"
@@ -41,11 +31,25 @@
             rules="required|email"
             v-model.trim="order.user.email"
           />
-          <error-message name="email" class="border-red-400"></error-message>
+          <ErrorMessage name="email" class="border-red-400" />
         </div>
-        <div class="mb-9">
+        <div class="w-full mb-3">
+          <label for="phone">手機號碼<span class="text-red-400">*</span></label>
+          <Field
+            type="tel"
+            name="phone"
+            id="phone"
+            :rules="phoneNumber"
+            class="w-full px-2 border-b-2"
+            :class="{ 'border-red-400': errors['phone'] }"
+            v-model.trim="order.user.tel"
+          />
+          <ErrorMessage name="phone" class="border-red-400" />
+        </div>
+
+        <div class="w-full mb-3">
           <label for="address">收件地址<span class="text-red-400">*</span></label>
-          <field
+          <Field
             type="text"
             name="地址"
             id="address"
@@ -54,7 +58,7 @@
             :class="{ 'border-red-400': errors['地址'] }"
             v-model.trim="order.user.address"
           />
-          <error-message name="地址" class="border-red-400"></error-message>
+          <ErrorMessage name="地址" class="border-red-400" />
         </div>
         <div class="mb-9">
           <label for="message">留給賣家的話</label>
@@ -67,25 +71,26 @@
             class="w-full px-2 border-b-2"
             v-model.trim="order.message"
           ></textarea>
-          <error-message name="留言"></error-message>
+          <ErrorMessage name="留言" />
         </div>
-        <div>
+        <div class="lg:w-1/2 lg:ml-auto">
           <BaseBtn type="submit" class="w-full">下一步</BaseBtn>
         </div>
-      </v-from>
+      </VFrom>
     </div>
   </div>
 </template>
 
 <script>
 import {
-  Form as vFrom, Field, configure, defineRule, ErrorMessage,
+  Form as VFrom, Field, configure, defineRule, ErrorMessage,
 } from 'vee-validate';
+
 import { required, email, min } from '@vee-validate/rules';
 import { localize } from '@vee-validate/i18n';
 import zhTW from '@vee-validate/i18n/dist/locale/zh_TW.json';
-
 import Breadcrumb from '@/components/forestage/cart/Breadcrumb.vue';
+import CartProductList from '@/components/forestage/cart/CartProductList.vue';
 
 configure({
   generateMessage: localize('zh_TW', zhTW),
@@ -97,10 +102,11 @@ defineRule('min', min);
 
 export default {
   components: {
-    vFrom,
+    VFrom,
     Field,
     ErrorMessage,
     Breadcrumb,
+    CartProductList,
   },
   data() {
     return {
@@ -115,23 +121,22 @@ export default {
       },
     };
   },
+  computed: {
+    cartData() {
+      return this.$store.getters['forestageCart/cartData'];
+    },
+  },
   methods: {
     phoneNumber(value) {
       const phoneNumber = /^(09)[0-9]{8}$/;
       return phoneNumber.test(value) ? true : '請輸入正確的電話號碼';
     },
-    onSubmit() {
+    async onSubmit() {
       const data = {
         ...this.order,
       };
-      this.$store.dispatch('forestageOrder/orderInformation', data);
-      this.$router.push('/ordercheck');
-    },
-    editOrder() {
-      const order = this.$store.getters['forestageOrder/orderInformation'] ?? {};
-      if (order.name !== '' && order.name !== undefined) {
-        this.order = order;
-      }
+      await this.$store.dispatch('forestageOrder/sendOrder', data);
+      this.$router.push('/orderpay');
     },
     orderClear() {
       this.order = {
@@ -144,9 +149,6 @@ export default {
         message: '',
       };
     },
-  },
-  mounted() {
-    this.editOrder();
   },
   unmounted() {
     this.orderClear();

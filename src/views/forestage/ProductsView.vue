@@ -2,9 +2,10 @@
   <div class="container mx-auto pt-[130px] lg:pt-[112px] px-4">
     <Breadcrumb :category="filterProductCategory" />
     <div class="flex flex-col mt-3 gap-7 lg:flex-row">
-      <div class="p-6 border rounded-lg min-w-max lg:px-8 lg:pt-20">
+      <div class="p-2 rounded-lg min-w-max lg:pt-10">
         <h2 class="mb-3 text-2xl font-bold">商品分類</h2>
         <ProductCategory />
+        <p class="block mt-3 text-gray-400 lg:hidden">點擊上方"商品分類名稱"切換"商品列表"</p>
       </div>
       <div>
         <h2 class="mb-3 text-2xl font-bold">{{ filterProductCategory }}</h2>
@@ -25,11 +26,6 @@ export default {
     ProductList,
     ProductCategory,
     Breadcrumb,
-  },
-  data() {
-    return {
-      error: null,
-    };
   },
   computed: {
     countPageData() {

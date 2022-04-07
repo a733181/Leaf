@@ -1,11 +1,6 @@
 <template>
   <ul class="flex flex-col gap-5 lg:flex-wrap lg:flex-row">
-    <li
-      v-for="product in productsData"
-      :key="product.id"
-      class="border border-[#e4e6e8]"
-      data-aos="fade-up"
-    >
+    <li v-for="product in productsData" :key="product.id" class="border border-[#e4e6e8]">
       <img
         :src="product.imageUrl"
         :alt="product.title"
@@ -22,7 +17,9 @@
           <p class="line-through">NT$ {{ product.origin_price }}</p>
         </div>
         <BaseBtn outline class="w-full my-6" @click="productDetail(product.id)">商品詳情</BaseBtn>
-        <BaseBtn class="w-full" @click="addCart(product.id)">加入購物車</BaseBtn>
+        <BaseBtn class="w-full" @click="addCart(product.id)" :disabled="isLoadAddCard"
+          >加入購物車</BaseBtn
+        >
       </div>
     </li>
   </ul>
@@ -40,14 +37,15 @@ export default {
   data() {
     return {
       showAddCart: false,
+      isLoadAddCard: false,
     };
   },
   methods: {
     productDetail(id) {
-      const path = `/products/${id}`;
-      this.$router.push(path);
+      this.$router.push(`/products/${id}`);
     },
     async addCart(id) {
+      this.isLoadAddCard = !this.isLoadAddCard;
       this.showAddCart = false;
       const data = {
         data: {
@@ -57,6 +55,7 @@ export default {
       };
       await this.$store.dispatch('forestageCart/addCart', data);
       this.showAddCart = this.$store.getters['forestageCart/addCartMessage'];
+      this.isLoadAddCard = !this.isLoadAddCard;
     },
   },
 };

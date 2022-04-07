@@ -169,7 +169,7 @@
         <td>{{ Math.round(order.total) }}</td>
         <td>
           <BaseBtn outline class="mr-2" @click="editOrder(order)">變更</BaseBtn>
-          <base-btn red-outline @click="tryDeleteOrder(order.id)">刪除</base-btn>
+          <BaseBtn red-outline @click="tryDeleteOrder(order.id)">刪除</BaseBtn>
         </td>
       </tr>
     </tbody>
@@ -237,13 +237,16 @@ export default {
   },
   methods: {
     changeDate(date) {
-      const options = {
-        day: 'numeric',
-        month: 'numeric',
-        year: 'numeric',
-      };
-      const orderDate = new Intl.DateTimeFormat(options).format(date * 1000);
-      return orderDate;
+      if (date) {
+        const options = {
+          day: 'numeric',
+          month: 'numeric',
+          year: 'numeric',
+        };
+        const orderDate = new Intl.DateTimeFormat(options).format(date * 1000);
+        return orderDate;
+      }
+      return '';
     },
     countOrderItem(order) {
       this.orderLength = order.length;
@@ -257,8 +260,8 @@ export default {
       this.productList = productArr;
       this.toggleShowProductList();
     },
-    editOrder(order) {
-      this.$store.dispatch('backstageOrder/getEditOrder', order);
+    editOrder(orderData) {
+      this.$store.dispatch('backstageOrder/getEditOrder', orderData);
       this.toggleIsEditOrder();
     },
     tryDeleteOrder(id) {

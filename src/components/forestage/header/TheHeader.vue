@@ -6,30 +6,27 @@
         <h1 class="text-4xl text-white font-Redressed">Leaf</h1>
       </RouterLink>
       <ul class="flex gap-8 mt-3 lg:mt-0">
-        <li>
-          <RouterLink to="about">
-            <img src="@/assets/svg/address-card-solid.svg" alt="about" class="icon" />
-          </RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/question">
-            <img src="@/assets/svg/question-solid.svg" alt="常見問題" class="icon" />
-          </RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/order">
-            <img src="@/assets/svg/scroll-solid.svg" alt="訂單查詢" class="icon" />
-          </RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/products">
-            <img src="@/assets/svg/shop.png" alt="商店" class="icon" />
+        <li v-for="nav in navList" :key="nav.name">
+          <RouterLink :to="nav.path">
+            <img
+              :src="require(`@/assets/svg/${nav.imgSrc}`)"
+              :alt="nav.name"
+              class="icon"
+              :class="{ 'opacity-60': nav.path === activePath }"
+            />
           </RouterLink>
         </li>
         <li class="relative">
           <RouterLink to="/cart">
-            <img src="@/assets/svg/cart.png" alt="購物車" class="icon" />
-            <span v-if="cartItem" class="text-white bg-red-400 top">{{ cartItem }}</span>
+            <img
+              src="@/assets/svg/cart.png"
+              alt="購物車"
+              class="icon"
+              :class="{ 'opacity-60': '/cart' === activePath }"
+            />
+            <span v-if="cartItem" class="text-white bg-red-400 top">
+              {{ cartItem }}
+            </span>
           </RouterLink>
         </li>
       </ul>
@@ -41,10 +38,42 @@
 
 <script>
 export default {
+  data() {
+    return {
+      navList: [
+        {
+          name: '關於Leaf',
+          path: '/about',
+          imgSrc: 'address-card-solid.svg',
+        },
+        {
+          name: '常見問題',
+          path: '/question',
+          imgSrc: 'question-solid.svg',
+        },
+        {
+          name: '訂單查詢',
+          path: '/order',
+          imgSrc: 'scroll-solid.svg',
+        },
+        {
+          name: '商店',
+          path: '/products',
+          imgSrc: 'shop.png',
+        },
+      ],
+      activePath: '',
+    };
+  },
   computed: {
     cartItem() {
       const data = this.$store.getters['forestageCart/cartData'];
       return data.length;
+    },
+  },
+  watch: {
+    '$route.path': function () {
+      this.activePath = this.$route.path;
     },
   },
   methods: {
@@ -61,6 +90,7 @@ export default {
     this.$store.dispatch('loading/isLoading', true);
     this.getProducts();
     this.getCartData();
+    this.activePath = this.$route.path;
   },
 };
 </script>
@@ -72,7 +102,10 @@ export default {
 }
 
 .icon {
-  @apply w-[25px] h-[25px] hover:opacity-60;
+  @apply w-[25px] h-[25px] hover:-translate-y-1;
+}
+.icon-active {
+  @apply opacity-60;
 }
 .top {
   @apply rounded-[50%] text-xs top-0 absolute left-full  -translate-x-1/2 -translate-y-1/2 px-1;

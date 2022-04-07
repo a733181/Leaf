@@ -37,8 +37,7 @@ export default {
   },
   methods: {
     toProductDetail(id) {
-      const path = `/products/${id}`;
-      this.$router.push(path);
+      this.$router.push(`/products/${id}`);
     },
   },
 };

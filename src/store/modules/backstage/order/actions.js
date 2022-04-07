@@ -1,7 +1,10 @@
+const apiPath = process.env.VUE_APP_API_PATH;
+const apiUrl = `${apiPath}/admin/order`;
+
 export default {
   async getOrder(context) {
     try {
-      const url = 'api/tita/admin/orders';
+      const url = `${apiUrl}s`;
       const res = await context.dispatch('axios/get', url, {
         root: true,
       });
@@ -28,7 +31,7 @@ export default {
   async editOrder(context, payload) {
     try {
       const data = {
-        url: `api/tita/admin/order/${payload.id}`,
+        url: `${apiUrl}/${payload.id}`,
         data: {
           data: {
             ...payload,
@@ -51,7 +54,7 @@ export default {
   async deleteOrder(context) {
     try {
       const id = context.getters.deleteOrderId;
-      const url = `api/tita/admin/${id === '' ? 'orders/all' : `order/${id}`}`;
+      const url = `${apiPath}/admin/${id === '' ? 'orders/all' : `order/${id}`}`;
 
       await context.dispatch('axios/delete', url, {
         root: true,

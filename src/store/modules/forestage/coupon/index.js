@@ -1,3 +1,4 @@
+const apiPath = process.env.VUE_APP_API_PATH;
 export default {
   namespaced: true,
   state() {
@@ -8,7 +9,7 @@ export default {
     async useCoupon(context, payload) {
       try {
         const data = {
-          url: 'api/tita/coupon',
+          url: `${apiPath}/coupon`,
           data: {
             data: {
               code: payload,

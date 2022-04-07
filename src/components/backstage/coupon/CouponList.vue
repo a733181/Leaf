@@ -96,7 +96,7 @@
         </td>
         <td class="p-2">
           <BaseBtn outline class="mr-2" @click="tryEditCoupon(coupon)">變更</BaseBtn>
-          <base-btn red-outline @click="deleteCoupon(coupon.id)">刪除</base-btn>
+          <BaseBtn red-outline @click="deleteCoupon(coupon.id)">刪除</BaseBtn>
         </td>
       </tr>
     </tbody>

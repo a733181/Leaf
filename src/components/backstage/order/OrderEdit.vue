@@ -59,24 +59,33 @@
         @blur="errorType = ''"
       />
     </div>
-    <div class="mb-6">
+    <div class="mb-3">
       <label for="isPaid" class="mr-3">是否付款</label>
       <input type="checkbox" id="isPaid" v-model="data.is_paid" :checked="data.is_paid" />
     </div>
+    <div class="mb-6">
+      <label for="due_date" class="mb-1">付款日</label>
+      <Datepicker v-model="date" autoApply :format="formatDate" :required="data.is_paid" />
+    </div>
     <div class="flex justify-between gap-4">
-      <base-btn red-outline class="w-1/2" @click="close">取消</base-btn>
-      <base-btn type="submit" class="w-1/2">送出</base-btn>
+      <BaseBtn red-outline class="w-1/2" @click="close">取消</BaseBtn>
+      <BaseBtn type="submit" class="w-1/2">送出</BaseBtn>
     </div>
   </form>
 </template>
 
 <script>
+import Datepicker from 'vue3-date-time-picker';
+import 'vue3-date-time-picker/dist/main.css';
+
 export default {
   emits: ['close'],
+  components: { Datepicker },
   data() {
     return {
       data: {},
       errorType: '',
+      date: null,
     };
   },
   methods: {
@@ -101,6 +110,8 @@ export default {
         this.errorType = 'address';
         return;
       }
+      const date = Date.parse(this.date) / 1000;
+      this.data.paid_date = date;
       await this.$store.dispatch('backstageOrder/editOrder', this.data);
       this.close();
     },
@@ -118,7 +129,7 @@ export default {
       }
       return 'border-gray-400';
     },
-    format(date) {
+    formatDate(date) {
       const day = date.getDate();
       const month = date.getMonth() + 1;
       const year = date.getFullYear();
@@ -133,6 +144,8 @@ export default {
   created() {
     const editOrderData = this.$store.getters['backstageOrder/editOrderData'];
     this.data = JSON.parse(JSON.stringify(editOrderData));
+    const date = new Date(this.data.paid_date * 1000);
+    this.date = date;
   },
 };
 </script>

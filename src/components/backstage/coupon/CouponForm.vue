@@ -34,7 +34,7 @@
     </div>
     <div class="mb-3">
       <label for="due_date">到期日</label>
-      <Datepicker v-model="date" autoApply :format="format" required />
+      <Datepicker v-model="date" autoApply :format="formatDate" required />
     </div>
     <div class="mb-6">
       <label for="isEnable" class="mr-2">是否啟用</label>
@@ -108,7 +108,7 @@ export default {
       this.clearForm();
       this.close();
     },
-    format(date) {
+    formatDate(date) {
       const day = date.getDate();
       const month = date.getMonth() + 1;
       const year = date.getFullYear();
@@ -163,13 +163,13 @@ export default {
 .input {
   @apply w-full px-2 py-1 mt-2 bg-gray-200 border-2 rounded-md;
 }
-.dp__main {
-  @apply mt-2;
-}
 </style>
 
 <style lang="postcss">
+.dp__main {
+  @apply mt-2;
+}
 .dp__input {
-  @apply border-2 border-gray-400 bg-gray-200;
+  @apply border-2 border-gray-400 bg-gray-200 rounded-md;
 }
 </style>

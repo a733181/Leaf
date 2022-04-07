@@ -1,37 +1,37 @@
 import { createStore } from 'vuex';
-import AxiosModules from './modules/axios/index';
-import PaginationModules from './modules/pagination/index';
-import LoadingModules from './modules/loading';
-import DialogModules from './modules/dialog/index';
+import axios from './modules/axios/index';
+import pagination from './modules/pagination/index';
+import loading from './modules/loading';
+import dialog from './modules/dialog/index';
 
-import BackstageAuthModules from './modules/backstage/auth/index';
-import BackstageProductsModules from './modules/backstage/products/index';
-import BackstageOrderModules from './modules/backstage/order/index';
-import BackstageCouponModules from './modules/backstage/coupon/index';
+import backstageAuth from './modules/backstage/auth/index';
+import backstageProducts from './modules/backstage/products/index';
+import backstageOrder from './modules/backstage/order/index';
+import backstageCoupon from './modules/backstage/coupon/index';
 
-import ForestageProductsModules from './modules/forestage/product/index';
-import ForestageCartModules from './modules/forestage/cart/index';
-import ForestageOrderModules from './modules/forestage/order/index';
-import ForestageCouponModules from './modules/forestage/coupon/index';
+import forestageProducts from './modules/forestage/product/index';
+import forestageCart from './modules/forestage/cart/index';
+import forestageOrder from './modules/forestage/order/index';
+import forestageCoupon from './modules/forestage/coupon/index';
 
 export default createStore({
   state: {},
   mutations: {},
   actions: {},
   modules: {
-    axios: AxiosModules,
-    pagination: PaginationModules,
-    dialog: DialogModules,
-    loading: LoadingModules,
+    axios,
+    pagination,
+    dialog,
+    loading,
 
-    backstageAuth: BackstageAuthModules,
-    backstageProducts: BackstageProductsModules,
-    backstageOrder: BackstageOrderModules,
-    backstageCoupon: BackstageCouponModules,
+    backstageAuth,
+    backstageProducts,
+    backstageOrder,
+    backstageCoupon,
 
-    forestageProducts: ForestageProductsModules,
-    forestageCart: ForestageCartModules,
-    forestageOrder: ForestageOrderModules,
-    forestageCoupon: ForestageCouponModules,
+    forestageProducts,
+    forestageCart,
+    forestageOrder,
+    forestageCoupon,
   },
 });

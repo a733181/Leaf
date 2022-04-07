@@ -1,8 +1,5 @@
 export default {
-  orderInformation(state, payload) {
-    state.orderInformation = payload;
-  },
-  sendOrder(state, payload) {
+  getOrderID(state, payload) {
     state.orderId = payload;
   },
   getOrder(state, payload) {

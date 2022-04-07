@@ -7,7 +7,12 @@
       <li class="breadcrumb-item">
         <RouterLink to="/products" @click="clickStore">商店</RouterLink>
       </li>
-      <li class="cursor-pointer breadcrumb-item" @click="clickCategory">{{ category }}</li>
+      <li class="breadcrumb-item" v-if="category && category != '全部商品'">
+        <RouterLink to="/products" @click="clickStore">全部商品</RouterLink>
+      </li>
+      <li class="breadcrumb-item" :class="{ 'cursor-pointer': !!title }" @click="clickCategory">
+        {{ category }}
+      </li>
       <li v-if="title" class="breadcrumb-item">{{ title }}</li>
     </ul>
   </nav>
@@ -28,8 +33,10 @@ export default {
       this.$store.dispatch('forestageProducts/getFilterProductCategory', '全部商品');
     },
     clickCategory() {
-      this.$router.push('/products');
-      this.$store.dispatch('forestageProducts/getFilterProductCategory', this.category);
+      if (this.title) {
+        this.$router.push('/products');
+        this.$store.dispatch('forestageProducts/getFilterProductCategory', this.category);
+      }
     },
   },
 };

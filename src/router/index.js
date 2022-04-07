@@ -28,15 +28,21 @@ const routes = [
         component: () => import('@/views/forestage/order/OrderView.vue'),
       },
       {
-        path: 'orderinformation',
-        component: () => import('@/views/forestage/order/OrderInformationView.vue'),
+        path: 'Ordercheckout',
+        component: () => import('@/views/forestage/order/OrderCheckout.vue'),
       },
       {
-        path: 'ordercheck',
-        component: () => import('@/views/forestage/order/OrderCheck.vue'),
+        path: 'orderpay',
+        component: () => import('@/views/forestage/order/OrderPay.vue'),
       },
-      { path: 'question', component: () => import('@/views/forestage/Question.vue') },
-      { path: 'about', component: () => import('@/views/forestage/About.vue') },
+      {
+        path: 'question',
+        component: () => import('@/views/forestage/Question.vue'),
+      },
+      {
+        path: 'about',
+        component: () => import('@/views/forestage/About.vue'),
+      },
     ],
   },
   {

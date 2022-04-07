@@ -1,9 +1,5 @@
 <template>
-  <button
-    class="btn"
-    :class="{ 'btn-outline': outline, 'btn-red-outline': redOutline }"
-    :type="type ? type : 'button'"
-  >
+  <button class="btn" :class="btnClass" :type="type" :disabled="disabled">
     <slot></slot>
   </button>
 </template>
@@ -22,6 +18,25 @@ export default {
     type: {
       type: String,
       required: false,
+      default: 'button',
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+    },
+  },
+  computed: {
+    btnClass() {
+      if (this.outline) {
+        return 'btn-outline';
+      }
+      if (this.redOutline) {
+        return 'btn-red-outline';
+      }
+      if (this.disabled) {
+        return 'btn-gray';
+      }
+      return '';
     },
   },
 };
@@ -36,6 +51,12 @@ export default {
 }
 .btn:active {
   @apply bg-black text-white border-black;
+}
+.btn-gray {
+  @apply bg-gray-600;
+}
+.btn-gray:hover {
+  @apply bg-gray-600 text-white;
 }
 .btn-outline {
   @apply border-[#40916C] text-[#40916C] bg-white;

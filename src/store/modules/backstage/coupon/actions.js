@@ -1,7 +1,9 @@
+const apiPath = process.env.VUE_APP_API_PATH;
+const apiUrl = `${apiPath}/admin/coupon`;
 export default {
   async getCoupon(context) {
     try {
-      const url = 'api/tita/admin/coupons';
+      const url = `${apiUrl}s`;
       const res = await context.dispatch('axios/get', url, {
         root: true,
       });
@@ -15,7 +17,7 @@ export default {
   async addCoupon(context, payload) {
     try {
       const data = {
-        url: 'api/tita/admin/coupon',
+        url: apiUrl,
         data: {
           data: {
             ...payload,
@@ -39,7 +41,7 @@ export default {
   async editCoupon(context, payload) {
     try {
       const data = {
-        url: `api/tita/admin/coupon/${payload.id}`,
+        url: `${apiUrl}/${payload.id}`,
         data: {
           data: {
             ...payload,
@@ -58,7 +60,7 @@ export default {
   },
   async deleteCoupon(context, payload) {
     try {
-      const url = `api/tita/admin/coupon/${payload}`;
+      const url = `${apiUrl}/${payload}`;
       await context.dispatch('axios/delete', url, {
         root: true,
       });

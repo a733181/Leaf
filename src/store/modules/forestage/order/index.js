@@ -6,7 +6,6 @@ export default {
   namespaced: true,
   state() {
     return {
-      orderInformation: {},
       orderId: '',
       order: '',
     };

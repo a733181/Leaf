@@ -11,7 +11,6 @@ export default {
         const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1');
         axios.defaults.headers.common.Authorization = token;
         const url = `${apiUrl}${addUrl}`;
-
         const res = await axios.post(url, data);
         return res;
       } catch (err) {

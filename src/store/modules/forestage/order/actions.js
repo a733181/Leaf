@@ -1,20 +1,23 @@
+const apiPath = process.env.VUE_APP_API_PATH;
+const apiOrderUrl = `${apiPath}/order`;
 export default {
-  orderInformation(context, payload) {
-    context.commit('orderInformation', payload);
-  },
-  async sendOrder(context) {
+  async sendOrder(context, payload) {
     try {
-      const data = context.getters.orderInformation;
-      const payload = {
-        url: 'api/tita/order',
+      const data = {
+        url: apiOrderUrl,
         data: {
-          data,
+          data: {
+            ...payload,
+          },
         },
       };
-      const res = await context.dispatch('axios/post', payload, {
+      const res = await context.dispatch('axios/post', data, {
         root: true,
       });
-      context.commit('sendOrder', res.data.orderId);
+      context.commit('getOrderID', res.data.orderId);
+      context.dispatch('forestageCart/getCart', '', {
+        root: true,
+      });
     } catch (err) {
       context.dispatch('dialog/error', err.message, {
         root: true,
@@ -22,7 +25,7 @@ export default {
     }
   },
   async getOrder(context, payload) {
-    const url = `/api/tita/order/${payload}`;
+    const url = `${apiOrderUrl}/${payload}`;
     const res = await context.dispatch('axios/get', url, {
       root: true,
     });
@@ -32,7 +35,7 @@ export default {
     try {
       const orderId = context.getters.orderId || context.getters.order.id;
       const data = {
-        url: `api/tita/pay/${orderId}`,
+        url: `${apiPath}/pay/${orderId}`,
       };
       await context.dispatch('axios/post', data, {
         root: true,

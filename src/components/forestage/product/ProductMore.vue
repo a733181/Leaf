@@ -1,6 +1,6 @@
 <template>
   <h2 class="mb-4 text-3xl font-bold">{{ title }}</h2>
-  <swiper
+  <Swiper
     :space-between="30"
     :slides-per-view="1"
     :slides-per-column="1"
@@ -22,11 +22,13 @@
           <p class="mr-2 text-lg">NT$ {{ product.price }}</p>
           <p class="line-through">NT$ {{ product.origin_price }}</p>
         </div>
-        <base-btn outline class="w-full my-6" @click="productDetail(product.id)">商品詳情</base-btn>
-        <base-btn class="w-full" @click="addCart(product.id)">加入購物車</base-btn>
+        <BaseBtn outline class="w-full my-6" @click="productDetail(product.id)">商品詳情</BaseBtn>
+        <BaseBtn class="w-full" @click="addCart(product.id)" :disabled="isLoadAddCard"
+          >加入購物車</BaseBtn
+        >
       </div>
     </SwiperSlide>
-  </swiper>
+  </Swiper>
   <BaseDialog :show="showAddCart" title="已加入購物車">
     <AddCartProduct quantity="1" />
   </BaseDialog>
@@ -68,6 +70,7 @@ export default {
         },
       },
       showAddCart: false,
+      isLoadAddCard: false,
     };
   },
   computed: {
@@ -75,17 +78,17 @@ export default {
       const data = this.$store.getters['forestageProducts/productsData'];
       const copyData = JSON.parse(JSON.stringify(data));
       const { length } = data;
-      const newData = copyData.splice(this.randomProduct, 6);
+      const newData = copyData.splice(this.randomProduct, 8);
       return { length, newData };
     },
   },
   methods: {
     productDetail(id) {
-      const path = `/products/${id}`;
-      this.$router.push(path);
+      this.$router.push(`/products/${id}`);
       this.randomProductItem();
     },
     async addCart(id) {
+      this.isLoadAddCard = !this.isLoadAddCard;
       this.showAddCart = false;
       const data = {
         data: {
@@ -95,9 +98,10 @@ export default {
       };
       await this.$store.dispatch('forestageCart/addCart', data);
       this.showAddCart = this.$store.getters['forestageCart/addCartMessage'];
+      this.isLoadAddCard = !this.isLoadAddCard;
     },
     randomProductItem() {
-      const randomNumber = this.productsData.length === 0 ? 8 : this.productsData.length - 4;
+      const randomNumber = this.productsData.length === 0 ? 8 : this.productsData.length - 8;
       this.randomProduct = Math.floor(Math.random() * randomNumber);
     },
   },

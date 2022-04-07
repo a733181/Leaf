@@ -6,19 +6,14 @@
         <h1 class="text-4xl text-white font-Redressed">Leaf</h1>
       </RouterLink>
       <ul class="flex gap-8">
-        <li>
-          <RouterLink to="/admin/order">
-            <img src="@/assets/svg/scroll-solid.svg" alt="order" class="icon" />
-          </RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/admin/products">
-            <img src="@/assets/svg/dolly-solid.svg" alt="products" class="icon" />
-          </RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/admin/coupon">
-            <img src="@/assets/svg/c.svg" alt="coupon" class="icon" />
+        <li v-for="nav in navList" :key="nav.name">
+          <RouterLink :to="nav.path">
+            <img
+              :src="require(`@/assets/svg/${nav.imgSrc}`)"
+              :alt="nav.name"
+              class="icon"
+              :class="{ 'opacity-60': nav.path === activePath }"
+            />
           </RouterLink>
         </li>
         <li @click="logout" class="cursor-pointer">
@@ -30,13 +25,44 @@
   <BaseLoading />
   <BaseDialog />
 </template>
+
 <script>
 export default {
+  data() {
+    return {
+      navList: [
+        {
+          path: '/admin/order',
+          imgSrc: 'scroll-solid.svg',
+          name: 'order',
+        },
+        {
+          path: '/admin/products',
+          imgSrc: 'dolly-solid.svg',
+          name: 'products',
+        },
+        {
+          path: '/admin/coupon',
+          imgSrc: 'c.svg',
+          name: 'coupon',
+        },
+      ],
+      activePath: '',
+    };
+  },
+  watch: {
+    '$route.path': function () {
+      this.activePath = this.$route.path;
+    },
+  },
   methods: {
     async logout() {
       await this.$store.dispatch('backstageAuth/logout');
       this.$router.replace('/');
     },
+  },
+  mounted() {
+    this.activePath = this.$route.path;
   },
 };
 </script>

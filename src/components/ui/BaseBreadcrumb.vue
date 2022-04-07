@@ -4,7 +4,12 @@
       <li>
         <RouterLink to="/">首頁</RouterLink>
       </li>
-      <li class="breadcrumb-item">{{ name }}</li>
+      <li class="breadcrumb-item">
+        <RouterLink to="/products">商店</RouterLink>
+      </li>
+      <li class="breadcrumb-item">
+        {{ name }}
+      </li>
     </ul>
   </nav>
 </template>
