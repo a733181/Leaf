@@ -5,9 +5,9 @@
     <h2 class="mb-3 text-2xl font-bold">您選購的商品</h2>
     <CartProductList :products="cartData" order />
     <div class="max-w-[600px] mx-auto">
-      <h3 class="mb-3 text-2xl font-bold">收件資訊</h3>
+      <h3 class="mb-8 text-2xl font-bold">收件資訊</h3>
       <VFrom action="" @submit="onSubmit" v-slot="{ errors }">
-        <div class="w-full mb-3">
+        <div class="w-full mb-7">
           <label for="name">收件人姓名<span class="text-red-400">*</span></label>
           <Field
             type="text"
@@ -18,9 +18,9 @@
             rules="required"
             v-model.trim="order.user.name"
           />
-          <ErrorMessage name="姓名" class="border-red-400" />
+          <ErrorMessage name="姓名" class="text-red-400" />
         </div>
-        <div class="w-full mb-3">
+        <div class="w-full mb-7">
           <label for="email">Email<span class="text-red-400">*</span></label>
           <Field
             type="email"
@@ -31,9 +31,9 @@
             rules="required|email"
             v-model.trim="order.user.email"
           />
-          <ErrorMessage name="email" class="border-red-400" />
+          <ErrorMessage name="email" class="text-red-400" />
         </div>
-        <div class="w-full mb-3">
+        <div class="w-full mb-7">
           <label for="phone">手機號碼<span class="text-red-400">*</span></label>
           <Field
             type="tel"
@@ -44,10 +44,10 @@
             :class="{ 'border-red-400': errors['phone'] }"
             v-model.trim="order.user.tel"
           />
-          <ErrorMessage name="phone" class="border-red-400" />
+          <ErrorMessage name="phone" class="text-red-400" />
         </div>
 
-        <div class="w-full mb-3">
+        <div class="w-full mb-7">
           <label for="address">收件地址<span class="text-red-400">*</span></label>
           <Field
             type="text"
@@ -58,9 +58,9 @@
             :class="{ 'border-red-400': errors['地址'] }"
             v-model.trim="order.user.address"
           />
-          <ErrorMessage name="地址" class="border-red-400" />
+          <ErrorMessage name="地址" class="text-red-400" />
         </div>
-        <div class="mb-9">
+        <div class="mb-10">
           <label for="message">留給賣家的話</label>
           <textarea
             name="留言"

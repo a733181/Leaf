@@ -38,7 +38,7 @@
           <img
             src="@/assets/svg/trash-can-solid.svg"
             alt="刪除"
-            class="w-[20px] h-[20px] mx-auto hover:scale-150"
+            class="w-[20px] h-[20px] mx-auto hover:scale-150 cursor-pointer"
             @click="deleteProduct(product.id)"
           />
         </td>
@@ -56,7 +56,7 @@
           <img
             src="@/assets/svg/trash-can-solid.svg"
             alt="刪除"
-            class="w-[20px] h-[20px] mx-auto hover:scale-150 block"
+            class="w-[20px] h-[20px] mx-auto hover:scale-150 block cursor-pointer"
             @click="deleteProduct"
           />
         </td>

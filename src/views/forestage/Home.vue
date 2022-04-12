@@ -15,7 +15,7 @@
           <img src="@/assets/images/earth.jpg" alt="土" class="w-full mb-3 rounded-lg" />
 
           <h3 class="mb-2 text-3xl">有機農業</h3>
-          <p>
+          <p class="lg:text-lg">
             有機農業是一種能維護土壤、生態系統和人類健康的生產體系，遵從當地的生態節律、生物多樣性和自然循環，而不依賴會帶來不利影響的投入物質。
           </p>
         </li>
@@ -23,12 +23,15 @@
           <img src="@/assets/images/sack.jpg" alt="麻袋" class="w-full mb-3 rounded-lg" />
 
           <h3 class="mb-2 text-3xl">環保包裝</h3>
-          <p>包裝產品採用可回收材質，降低包材對環境的負擔。</p>
+          <p class="lg:text-lg">包裝採用紙箱、紙袋、亞麻袋、紙束帶、紙填充物﹍等等物品。</p>
+          <p class="lg:text-lg">所有包裝及包材都可回收再利用，減少對環汙染。</p>
         </li>
         <li class="lg:w-[400px] w-[300px]" data-aos="fade-up">
           <img src="@/assets/images/freight.jpg" alt="貨車" class="w-full mb-3 rounded-lg" />
           <h3 class="mb-2 text-3xl">產地直送</h3>
-          <p>與貨運公司合作，專車配送，送貨到府</p>
+          <p class="lg:text-lg">
+            收到訂單後將請農夫馬上採摘、清洗、包裝，再交由司機專車配送，保持蔬菜的新鮮度。
+          </p>
         </li>
       </ul>
     </div>
@@ -44,11 +47,8 @@
       </div>
     </div>
     <div class="container px-4 mx-auto mb-12" data-aos="fade-up">
-      <ProductMore title="熱銷商品" />
-    </div>
-    <div class="container px-4 mx-auto">
       <h2 class="mb-4 text-3xl font-bold">商品分類</h2>
-      <ul class="grid grid-cols-1lg:gap-0 lg:grid-cols-4" data-aos="fade-up">
+      <ul class="grid grid-cols-1lg:gap-0 lg:grid-cols-4">
         <li class="hover" @click="toProducts('葉菜')">
           <img src="@/assets/images/cabbage.jpg" alt="葉菜" class="image" />
           <div class="center-words">
@@ -78,6 +78,45 @@
           </div>
         </li>
       </ul>
+    </div>
+    <section data-aos="fade-up" class="mb-12 bg-gray-50">
+      <ul class="container flex px-4 mx-auto lg:justify-between lg:flex-row">
+        <li class="p-4">
+          <img src="@/assets/svg/shuttle-van-solid.svg" alt="快速出貨" class="icon" />
+          <p class="text-center">快速出貨</p>
+        </li>
+        <li class="p-4">
+          <img src="@/assets/svg/box-open-solid.svg" alt="專業包裝" class="icon" />
+          <p class="text-center">專業包裝</p>
+        </li>
+        <li class="p-4">
+          <img src="@/assets/svg/handshake-solid.svg" alt="農夫契約" class="icon" />
+          <p class="text-center">農夫契約</p>
+        </li>
+        <li class="p-4">
+          <img src="@/assets/svg/tasks-solid.svg" alt="check" class="icon" />
+          <p class="text-center">蔬菜檢驗</p>
+        </li>
+        <li class="p-4">
+          <img src="@/assets/svg/credit-card-solid.svg" alt="線上支付" class="icon" />
+          <p class="text-center">線上支付</p>
+        </li>
+        <li class="p-4">
+          <img src="@/assets/svg/phone-solid.svg" alt="專業客服" class="icon" />
+          <p class="text-center">專業客服</p>
+        </li>
+      </ul>
+    </section>
+    <div class="container px-4 mx-auto">
+      <div class="mb-10" data-aos="fade-up">
+        <ProductMore title="精選商品" />
+      </div>
+      <div class="mb-10" data-aos="fade-up">
+        <ProductMore title="熱銷商品" />
+      </div>
+      <div data-aos="fade-up">
+        <ProductMore title="推薦商品" />
+      </div>
     </div>
   </div>
 </template>
@@ -142,6 +181,10 @@ export default {
 .hover .center-words {
   opacity: 1;
 }
+.icon {
+  width: 70px;
+  height: 70px;
+}
 @media (min-width: 768px) {
   .hover::before {
     opacity: 0;
@@ -160,7 +203,6 @@ export default {
     transition: all linear 400ms;
   }
 }
-
 .move {
   animation: move 0.6s;
   animation-iteration-count: 3;

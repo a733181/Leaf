@@ -34,7 +34,7 @@ export default {
         return 'btn-red-outline';
       }
       if (this.disabled) {
-        return 'btn-gray';
+        return 'btn-active';
       }
       return '';
     },
@@ -52,11 +52,8 @@ export default {
 .btn:active {
   @apply bg-black text-white border-black;
 }
-.btn-gray {
-  @apply bg-gray-600;
-}
-.btn-gray:hover {
-  @apply bg-gray-600 text-white;
+.btn-active {
+  @apply opacity-50;
 }
 .btn-outline {
   @apply border-[#40916C] text-[#40916C] bg-white;

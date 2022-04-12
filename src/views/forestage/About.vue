@@ -28,7 +28,9 @@
         <h3 class="text-xl" data-aos="fade-up">聯絡資訊</h3>
         <ul>
           <li class="mb-2">店名：Leaf</li>
-          <li class="mb-2">電話：05-3144688</li>
+          <li class="mb-2">
+            <a href="tel:05-3144688">電話：05-3144688</a>
+          </li>
           <li class="mb-2">地址：625 嘉義縣布袋鎮新北三街1號</li>
         </ul>
       </div>

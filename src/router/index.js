@@ -86,14 +86,6 @@ const routes = [
   },
 ];
 
-const router = createRouter({
-  history: createWebHashHistory(),
-  routes,
-  scrollBehavior() {
-    return { top: 0 };
-  },
-});
-
 async function tryLogin() {
   try {
     await store.dispatch('backstageAuth/tryLogin');
@@ -102,6 +94,14 @@ async function tryLogin() {
     return false;
   }
 }
+
+const router = createRouter({
+  history: createWebHashHistory(),
+  routes,
+  scrollBehavior() {
+    return { top: 0 };
+  },
+});
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {
